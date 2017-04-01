@@ -1,0 +1,42 @@
+server:
+    port: 9090
+    context-path: #/7le/
+
+logging:
+    level:
+        tk.mybatis: TRACE
+
+druid:
+    url: jdbc:mysql://114.215.122.158:3306/shine
+    username: hq
+    password:
+    initial-size: 1
+    min-idle: 1
+    max-active: 20
+    test-on-borrow: true
+
+spring:
+    mvc:
+        view:
+            prefix: /templates/
+            suffix: .ftl
+    freemarker:
+        cache: false
+        request-context-attribute: request
+
+
+mybatis:
+    type-aliases-package: com.shine.model
+    mapping-locations: classpath:mapping/*.xml
+
+mapping:
+    mappers:
+        - tk.com.shine.util.MyMapper
+    not-empty: false
+    identity: MYSQL
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
