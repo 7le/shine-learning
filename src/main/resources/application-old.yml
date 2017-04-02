@@ -27,11 +27,11 @@ spring:
 
 mybatis:
     type-aliases-package: com.shine.model
-    mapping-locations: classpath:mapping/*.xml
+    mapper-locations: classpath:mapper/*.xml
 
-mapping:
+mapper:
     mappers:
-        - tk.com.shine.util.MyMapper
+        - com.shine.util.MyMapper
     not-empty: false
     identity: MYSQL
 

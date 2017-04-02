@@ -22,7 +22,7 @@
 
         <javaModelGenerator targetPackage="com.shine.model" targetProject="src/main/java"/>
 
-        <sqlMapGenerator targetPackage="mapping" targetProject="src/main/resources"/>
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
 
         <javaClientGenerator targetPackage="com.shine.mapper" targetProject="src/main/java"
                              type="XMLMAPPER"/>
