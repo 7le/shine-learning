@@ -9,7 +9,7 @@ logging:
 druid:
     url: jdbc:mysql://114.215.122.158:3306/shine
     username: hq
-    password:
+    password: Hq@58945894
     initial-size: 1
     min-idle: 1
     max-active: 20
