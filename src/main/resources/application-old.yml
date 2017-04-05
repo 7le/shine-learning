@@ -8,8 +8,8 @@ logging:
 
 druid:
     url: jdbc:mysql://114.215.122.158:3306/shine
-    username: hq
-    password:
+    username: local
+    password: Local@123
     initial-size: 1
     min-idle: 1
     max-active: 20
