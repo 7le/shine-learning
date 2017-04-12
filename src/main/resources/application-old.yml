@@ -7,7 +7,7 @@ logging:
         tk.mybatis: TRACE
 
 druid:
-    url: jdbc:mysql://114.215.122.158:3306/shine
+    url: jdbc:mysql://114.215.122.158:3306/shine?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: hq
     password: Hq@58945894
     initial-size: 1
@@ -23,7 +23,6 @@ spring:
     freemarker:
         cache: false
         request-context-attribute: request
-
 
 mybatis:
     type-aliases-package: com.shine.model
