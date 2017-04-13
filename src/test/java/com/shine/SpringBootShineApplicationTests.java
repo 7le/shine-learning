@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.shine.jdkDynamicAopProxy.DynamicSubject;
 import com.shine.jdkDynamicAopProxy.RealSubject;
 import com.shine.jdkDynamicAopProxy.Subject;
+import com.shine.jdkDynamicAopProxy.Utils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -49,11 +50,11 @@ import java.util.regex.Pattern;
 @SpringBootTest
 public class SpringBootShineApplicationTests {
 
-
     //客户端：生成代理实例，并调用了request()方法
     @Test
     public void ClientJdkDynamicAop(){
-
+       /* System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles","true");
+        System.out.println(System.getProperties());*/
         Subject rs=new RealSubject();//这里指定被代理类
         InvocationHandler ds=new DynamicSubject(rs);
         Class<?> cls=rs.getClass();
@@ -61,6 +62,9 @@ public class SpringBootShineApplicationTests {
         //以下是一次性生成代理
         Subject subject=(Subject) Proxy.newProxyInstance(
                 cls.getClassLoader(), cls.getInterfaces(), ds);
+
+        // 获取代理类的字节码
+        Utils.generateProxyClassFile();
 
         //这里可以通过运行结果证明subject是Proxy的一个实例，这个实例实现了Subject接口
         System.out.println(subject instanceof Proxy);
