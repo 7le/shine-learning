@@ -40,6 +40,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
@@ -65,15 +66,15 @@ public class SpringBootShineApplicationTests {
 
 
         // 创建Template对象
-        Template template = null;
-
-        //ftlName 为ftl的路径  最好可以直接是代码块，待解决
-        template = cfg.getTemplate(ftlName);
+        Template template =new Template(null, new StringReader("英文：${English};中文：${Chinese}"), null);
+        //ftlName 为ftl的路径
+        //template = cfg.getTemplate(ftlName);
         template.setEncoding("utf-8");
 
         Map<String, Object> context = new HashMap<String, Object>();
         // 将json字符串加入数据模型
-        context.put("getData", "测试freemarker");
+        context.put("English", "测试--freemarker");
+        context.put("Chinese","test--freemarker");
 
         // 输出流
         StringWriter writer = new StringWriter();
