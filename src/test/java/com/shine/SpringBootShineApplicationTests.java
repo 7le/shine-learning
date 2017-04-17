@@ -5,6 +5,9 @@ import com.shine.jdkDynamicAopProxy.DynamicSubject;
 import com.shine.jdkDynamicAopProxy.RealSubject;
 import com.shine.jdkDynamicAopProxy.Subject;
 import com.shine.jdkDynamicAopProxy.Utils;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -37,18 +40,53 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringBootShineApplicationTests {
+
+    @Test
+    public void freemarker() throws IOException, TemplateException {
+
+        String resultString;
+        // 创建Configuration对象
+        Configuration cfg = new Configuration();
+
+
+        // 创建Template对象
+        Template template = null;
+
+        //ftlName 为ftl的路径  最好可以直接是代码块，待解决
+        template = cfg.getTemplate(ftlName);
+        template.setEncoding("utf-8");
+
+        Map<String, Object> context = new HashMap<String, Object>();
+        // 将json字符串加入数据模型
+        context.put("getData", "测试freemarker");
+
+        // 输出流
+        StringWriter writer = new StringWriter();
+        // 将数据和模型结合生成html
+        template.process(context, writer);
+        // 获得html
+        resultString = writer.toString();
+
+        writer.close();
+
+        System.out.println(resultString);
+    }
+
 
     //客户端：生成代理实例，并调用了request()方法
     @Test
