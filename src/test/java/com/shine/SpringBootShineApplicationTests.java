@@ -1,10 +1,10 @@
 package com.shine;
 
 import com.alibaba.fastjson.JSONArray;
-import com.shine.jdkDynamicAopProxy.DynamicSubject;
-import com.shine.jdkDynamicAopProxy.RealSubject;
-import com.shine.jdkDynamicAopProxy.Subject;
-import com.shine.jdkDynamicAopProxy.Utils;
+import com.shine.Spring.jdkDynamicAopProxy.DynamicSubject;
+import com.shine.Spring.jdkDynamicAopProxy.RealSubject;
+import com.shine.Spring.jdkDynamicAopProxy.Subject;
+import com.shine.Spring.jdkDynamicAopProxy.Utils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -18,7 +18,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
@@ -31,7 +30,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
