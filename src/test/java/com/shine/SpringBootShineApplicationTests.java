@@ -1,10 +1,10 @@
 package com.shine;
 
 import com.alibaba.fastjson.JSONArray;
-import com.shine.Spring.jdkDynamicAopProxy.DynamicSubject;
-import com.shine.Spring.jdkDynamicAopProxy.RealSubject;
-import com.shine.Spring.jdkDynamicAopProxy.Subject;
-import com.shine.Spring.jdkDynamicAopProxy.Utils;
+import com.shine.spring.jdkDynamicAopProxy.DynamicSubject;
+import com.shine.spring.jdkDynamicAopProxy.RealSubject;
+import com.shine.spring.jdkDynamicAopProxy.Subject;
+import com.shine.spring.jdkDynamicAopProxy.Utils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

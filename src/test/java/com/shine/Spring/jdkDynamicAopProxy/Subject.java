@@ -1,4 +1,4 @@
-package com.shine.Spring.jdkDynamicAopProxy;
+package com.shine.spring.jdkDynamicAopProxy;
 
 /**
  * @author 7le
