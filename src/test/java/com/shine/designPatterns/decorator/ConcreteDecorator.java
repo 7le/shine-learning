@@ -1,5 +1,10 @@
 package com.shine.designPatterns.decorator;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 /**
  * 具体装饰类
  * 它是抽象装饰类的子类，负责向构件添加新的职责。
@@ -33,8 +38,14 @@ public class ConcreteDecorator extends Decorator{
      *        对于扩展一个对象的功能，装饰模式比继承更加灵活性，不会导致类的个数急剧增加。
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         ConcreteDecorator decorator=new ConcreteDecorator(new Iphone());
         decorator.call();
+
+        //InputStream就是装饰者模式中的超类（Component） ==>Phone
+        //ByteArrayInputStream，FileInputStream相当于被装饰者（ConcreteComponent）==>Iphone   这些类都提供了最基本的字节读取功能。
+        //而另外一个和这两个类是同一级的类FilterInputStream即是装饰者（Decorator）==>Decorator
+        //BufferedInputStream，DataInputStream这些都是被装饰者装饰后形成的成品。==>ConcreteDecorator
+        BufferedInputStream bufferedInputStream=new BufferedInputStream(new FileInputStream("Decorator"));
     }
 }
