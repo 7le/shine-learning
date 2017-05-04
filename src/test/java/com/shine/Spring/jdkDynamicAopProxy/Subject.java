@@ -7,5 +7,8 @@ package com.shine.spring.jdkDynamicAopProxy;
  */
 public interface Subject {
 
-    public void request();
+    void request();
+
+    void doSomething();
+
 }

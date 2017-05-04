@@ -10,9 +10,9 @@ import java.io.IOException;
  */
 public class Utils {
 
-    public static void generateProxyClassFile() {
+    public static void generateProxyClassFile(Object object) {
         byte[] classFile = sun.misc.ProxyGenerator.generateProxyClass(
-                "$MyProxy", Subject.class.getInterfaces());
+                "$MyProxy", object.getClass().getInterfaces());
         FileOutputStream out = null;
         String path = System.getProperty("user.dir")+"/target/test-classes/com/shine/jdkDynamicAopProxy/$MyProxy.class";
         try {

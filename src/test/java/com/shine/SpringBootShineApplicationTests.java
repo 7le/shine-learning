@@ -101,7 +101,7 @@ public class SpringBootShineApplicationTests {
                 cls.getClassLoader(), cls.getInterfaces(), ds);
 
         // 获取代理类的字节码
-        Utils.generateProxyClassFile();
+        Utils.generateProxyClassFile(subject);
 
         //这里可以通过运行结果证明subject是Proxy的一个实例，这个实例实现了Subject接口
         System.out.println(subject instanceof Proxy);
@@ -136,6 +136,7 @@ public class SpringBootShineApplicationTests {
 
         System.out.println("\n\n"+"运行结果为：");
         subject.request();
+        subject.doSomething();
     }
 
 

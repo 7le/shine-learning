@@ -10,4 +10,8 @@ public class RealSubject implements Subject {
     public void request() {
         System.out.println("From real subject.");
     }
+
+    public void doSomething() {
+        System.out.println("do...something");
+    }
 }
