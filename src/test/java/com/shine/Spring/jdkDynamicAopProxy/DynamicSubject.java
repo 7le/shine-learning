@@ -2,6 +2,7 @@ package com.shine.spring.jdkDynamicAopProxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * @author 7le
@@ -16,8 +17,10 @@ public class DynamicSubject implements InvocationHandler {
     public DynamicSubject() {
     }
 
-    public DynamicSubject(Object obj) {
+    public Object bind(Object obj) {
         this.obj = obj;
+        return Proxy.newProxyInstance(obj.getClass().getClassLoader(),obj.getClass().getInterfaces(),this);
+
     }
 
     //这个方法不是我们显示的去调用

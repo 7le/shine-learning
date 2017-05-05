@@ -92,13 +92,9 @@ public class SpringBootShineApplicationTests {
     public void ClientJdkDynamicAop(){
        /* System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles","true");
         System.out.println(System.getProperties());*/
-        Subject rs=new RealSubject();//这里指定被代理类
-        InvocationHandler ds=new DynamicSubject(rs);
-        Class<?> cls=rs.getClass();
 
         //以下是一次性生成代理
-        Subject subject=(Subject) Proxy.newProxyInstance(
-                cls.getClassLoader(), cls.getInterfaces(), ds);
+        Subject subject=(Subject) new DynamicSubject().bind(new RealSubject());
 
         // 获取代理类的字节码
         Utils.generateProxyClassFile(subject);
