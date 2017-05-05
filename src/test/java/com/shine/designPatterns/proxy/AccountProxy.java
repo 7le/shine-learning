@@ -10,10 +10,12 @@ public class AccountProxy implements Account{
 
     /**
      * 重写默认构造函数
-     * @param accountImpl :真正要执行业务的对象
+     * 这里是代理模式和装饰模式的区别
+     * 代理模式的关系在编译时确定
+     * 装饰模式能在运行时递归地被构造
      */
-    public AccountProxy(AccountImpl accountImpl) {
-        this.accountImpl =accountImpl;
+    public AccountProxy() {
+        accountImpl = new AccountImpl();
     }
 
     @Override
@@ -33,9 +35,8 @@ public class AccountProxy implements Account{
     }
 
     public static void main(String[] args) {
-        AccountImpl accountImpl = new AccountImpl();
-        //在这里传入要调用的业务对象
-        AccountProxy accountProxy = new AccountProxy(accountImpl);
+        //在这里传入要调用的业务对象,客户不知道代理委托了另一个对象
+        AccountProxy accountProxy = new AccountProxy();
         //开始调用业务对象的方法，这两个方法都被增强了。
         accountProxy.updateAccount();
         accountProxy.queryAccount();
