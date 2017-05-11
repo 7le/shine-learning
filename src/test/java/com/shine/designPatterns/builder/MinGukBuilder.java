@@ -1,5 +1,6 @@
 package com.shine.designPatterns.builder;
 
+
 /**
  * 实现Builder的接口以构造和装配该产品的各个部件，
  * 定义并明确它所创建的表示，并提供一个检索产品的接口。
@@ -7,10 +8,10 @@ package com.shine.designPatterns.builder;
  */
 public class MinGukBuilder implements BabyBuilder{
 
-    MinGuk minGuk;
+    Baby baby;
 
     public MinGukBuilder() {
-        minGuk = new MinGuk();
+        baby = new MinGuk();
     }
 
     @Override
@@ -24,7 +25,7 @@ public class MinGukBuilder implements BabyBuilder{
     }
 
     @Override
-    public MinGuk BabyBuilder() {
-        return minGuk;
+    public Baby BabyBuilder() {
+        return baby;
     }
 }

@@ -6,7 +6,7 @@ package com.shine.designPatterns.builder;
  */
 public class BabyDirector {
 
-    public MinGuk constructBaby(BabyBuilder bb) {
+    public Baby constructBaby(BabyBuilder bb) {
 
         bb.buildSmile();
 
@@ -22,6 +22,6 @@ public class BabyDirector {
      */
     public static void main(String[] args) {
         BabyDirector pd = new BabyDirector();
-        MinGuk minGuk = pd.constructBaby(new MinGukBuilder());
+        Baby baby = pd.constructBaby(new MinGukBuilder());
     }
 }

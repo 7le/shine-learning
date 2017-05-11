@@ -10,5 +10,5 @@ public interface BabyBuilder {
 
     void buildMoe();
 
-    MinGuk BabyBuilder();
+    Baby BabyBuilder();
 }
