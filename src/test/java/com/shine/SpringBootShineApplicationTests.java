@@ -60,14 +60,18 @@ public class SpringBootShineApplicationTests {
 
         String resultString;
         // 创建Configuration对象
-        Configuration cfg = new Configuration();
+        Configuration cfg=new Configuration(Configuration.VERSION_2_3_21);
 
 
         // 创建Template对象
         Template template =new Template(null, new StringReader("英文：${English};中文：${Chinese}"), null);
-        //ftlName 为ftl的路径
+
+        //或者这样拿
+        //cfg.setDirectoryForTemplateLoading(new File("src/main/java/templates"));
         //template = cfg.getTemplate(ftlName);
-        template.setEncoding("utf-8");
+
+        //设置默认编码格式
+        cfg.setDefaultEncoding("UTF-8");
 
         Map<String, Object> context = new HashMap<String, Object>();
         // 将json字符串加入数据模型

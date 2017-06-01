@@ -17,6 +17,10 @@ public class DynamicSubject implements InvocationHandler {
     public DynamicSubject() {
     }
 
+    public DynamicSubject(Object obj) {
+        this.obj=obj;
+    }
+
     public Object bind(Object obj) {
         this.obj = obj;
         return Proxy.newProxyInstance(obj.getClass().getClassLoader(),obj.getClass().getInterfaces(),this);
