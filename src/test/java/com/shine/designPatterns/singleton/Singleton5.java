@@ -12,7 +12,7 @@ public class Singleton5 {
 
     private Singleton5 (){}
 
-    public static final Singleton5 getInstance() {
+    public static Singleton5 getInstance() {
         return LazyHolder.INSTANCE;
     }
 }
