@@ -1,6 +1,5 @@
-package com.shine.designPatterns.Observer;
+package com.shine.designPatterns.observer;
 
-import java.util.EventObject;
 import java.util.Vector;
 
 /**
