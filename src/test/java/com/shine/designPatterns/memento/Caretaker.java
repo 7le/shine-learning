@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 备忘录
+ * 负责人
  * Created by 7le on 2017/6/15 .
  */
 public class Caretaker {
