@@ -26,8 +26,11 @@ public class Watched extends Observable {
 
     public static void main(String[] args) {
         Watched watched = new Watched();
+        //方式一
         Watcher watcherDemo = new Watcher();
         watched.addObserver(watcherDemo);
+
+        //方式二
         watched.addObserver(new Observer(){
             @Override
             public void update(Observable o, Object arg) {
