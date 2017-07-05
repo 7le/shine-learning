@@ -1,11 +1,13 @@
 package com.shine.service;
 
+import com.shine.dao.AdminDao;
 import com.shine.constant.UserType;
 import com.shine.mapper.AdminUserMapper;
 import com.shine.model.AdminUser;
 import com.shine.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import resource.MyResource;
 
 /**
  * @author 7le
@@ -16,6 +18,9 @@ public class LoginService {
 
     @Autowired
     private AdminUserMapper adminUserMapper;
+
+    @MyResource
+    AdminDao adminDao;
 
     public String doAdminRegister(String loginName,String password) {
 
@@ -38,5 +43,9 @@ public class LoginService {
         }
 
         return null;
+    }
+
+    public void OK(){
+        adminDao.yoyo();
     }
 }

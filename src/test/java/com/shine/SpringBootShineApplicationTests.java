@@ -1,6 +1,7 @@
 package com.shine;
 
 import com.alibaba.fastjson.JSONArray;
+import com.shine.service.LoginService;
 import com.shine.spring.jdkDynamicAopProxy.DynamicSubject;
 import com.shine.spring.jdkDynamicAopProxy.RealSubject;
 import com.shine.spring.jdkDynamicAopProxy.Subject;
@@ -19,8 +20,14 @@ import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import resource.ClassPathXMLApplicationContext;
 
-import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,19 +36,11 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.springframework.test.context.junit4.SpringRunner;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
@@ -54,6 +53,13 @@ import java.util.regex.Pattern;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringBootShineApplicationTests {
+
+    @Test
+    public void testMyResourse() {
+        ClassPathXMLApplicationContext ctx = new ClassPathXMLApplicationContext("beans.xml");
+        LoginService loginService = (LoginService) ctx.getBean("loginService");
+        loginService.OK();
+    }
 
     @Test
     public void freemarker() throws IOException, TemplateException {
@@ -89,7 +95,6 @@ public class SpringBootShineApplicationTests {
 
         System.out.println(resultString);
     }
-
 
     //客户端：生成代理实例，并调用了request()方法
     @Test

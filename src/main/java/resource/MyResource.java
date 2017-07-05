@@ -1,4 +1,4 @@
-package com.shine.annotation.resource;
+package resource;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
