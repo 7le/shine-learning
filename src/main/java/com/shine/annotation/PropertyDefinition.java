@@ -1,4 +1,4 @@
-package resource;
+package com.shine.annotation;
 
 /**
  * 该JavaBean专门用户存放<property>的信息

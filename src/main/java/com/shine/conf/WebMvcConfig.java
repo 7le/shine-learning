@@ -24,9 +24,13 @@
 
 package com.shine.conf;
 
+import com.shine.annotation.AddArgumentResolver;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.List;
 
 /**
  * @author 7le
@@ -38,5 +42,19 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
+
+    /**
+     * RequestParameter参数解析器
+     */
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(addArgumentResolver());
+
+    }
+
+    private AddArgumentResolver addArgumentResolver() {
+        AddArgumentResolver addArgumentResolver = new AddArgumentResolver();
+        return addArgumentResolver;
     }
 }

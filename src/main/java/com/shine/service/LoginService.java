@@ -7,7 +7,7 @@ import com.shine.model.AdminUser;
 import com.shine.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import resource.MyResource;
+import com.shine.annotation.MyResource;
 
 /**
  * @author 7le

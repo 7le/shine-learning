@@ -1,4 +1,4 @@
-package resource;
+package com.shine.annotation;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.dom4j.Document;

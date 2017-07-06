@@ -1,4 +1,4 @@
-package resource;
+package com.shine.annotation;
 
 import java.util.ArrayList;
 import java.util.List;
