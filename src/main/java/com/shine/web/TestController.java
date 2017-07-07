@@ -1,6 +1,10 @@
 package com.shine.web;
 
 import com.shine.annotation.Add;
+import com.shine.annotation.InjectClass;
+import com.shine.annotation.InjectClass2;
+import com.shine.annotation.InjectClass3;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,9 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("test")
 public class TestController {
 
-    @RequestMapping(value = "/delete")
+    @Autowired
+    InjectClass injectClass;
+
+    @Autowired
+    InjectClass2 injectClass2;
+
+    @Autowired
+    InjectClass3 injectClass3;
+
+    @RequestMapping(value = "/one")
     @ResponseBody
     public String test(@Add Integer[] batch){
+        injectClass.print();
+        injectClass2.fly();
+        injectClass3.smile();
         return "ok";
     }
 }
