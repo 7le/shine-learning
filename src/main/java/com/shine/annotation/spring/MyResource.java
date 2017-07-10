@@ -1,4 +1,4 @@
-package com.shine.annotation;
+package com.shine.annotation.spring;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

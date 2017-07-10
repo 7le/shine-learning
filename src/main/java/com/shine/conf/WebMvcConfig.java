@@ -24,7 +24,7 @@
 
 package com.shine.conf;
 
-import com.shine.annotation.AddArgumentResolver;
+import com.shine.annotation.mvc.AddArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

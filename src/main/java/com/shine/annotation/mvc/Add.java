@@ -1,4 +1,4 @@
-package com.shine.annotation;
+package com.shine.annotation.mvc;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

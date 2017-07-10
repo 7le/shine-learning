@@ -1,4 +1,4 @@
-package com.shine.annotation;
+package com.shine.annotation.spring;
 
 @MyComponent
 public class InjectClass2Impl implements InjectClass2 {

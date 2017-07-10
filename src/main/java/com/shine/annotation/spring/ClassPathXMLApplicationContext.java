@@ -1,4 +1,4 @@
-package com.shine.annotation;
+package com.shine.annotation.spring;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.dom4j.Document;

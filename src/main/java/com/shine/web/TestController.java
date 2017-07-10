@@ -1,9 +1,9 @@
 package com.shine.web;
 
-import com.shine.annotation.Add;
-import com.shine.annotation.InjectClass;
-import com.shine.annotation.InjectClass2;
-import com.shine.annotation.InjectClass3;
+import com.shine.annotation.mvc.Add;
+import com.shine.annotation.spring.InjectClass;
+import com.shine.annotation.spring.InjectClass2;
+import com.shine.annotation.spring.InjectClass3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

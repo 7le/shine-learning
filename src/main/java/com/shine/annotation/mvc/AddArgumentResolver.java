@@ -1,4 +1,4 @@
-package com.shine.annotation;
+package com.shine.annotation.mvc;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

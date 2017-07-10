@@ -1,4 +1,4 @@
-package com.shine.annotation;
+package com.shine.annotation.spring;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -22,15 +22,15 @@ public class FactoryBeanTest<T> implements InitializingBean, FactoryBean<T> {
 
     public T getObject() throws Exception {
         Class innerClass = Class.forName(innerClassName);
-        //这里用jdk代理还有问题
-        Class classes[]=innerClass.getInterfaces();
+        //这里用jdk代理还有问题，先都用cglib代理
+        /*Class classes[]=innerClass.getInterfaces();
         if(classes.length>0){
             for(Class bean:classes){
                 if(bean.isInterface()){
                     return (T) InterfaceProxy.newInstance(bean);
                 }
             }
-        }
+        }*/
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(innerClass);
         enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
@@ -92,8 +92,6 @@ class MethodInterceptorImpl implements MethodInterceptor {
         System.out.println("MethodInterceptorImpl \r\n class:" +o.getClass().getName()+"\r\n methodName:"+ method.getName());
         return methodProxy.invokeSuper(o, objects);
     }
-
-
 }
 
 
