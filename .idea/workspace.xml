@@ -589,6 +589,16 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spring-boot-shine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="annotation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane">
@@ -1294,7 +1304,7 @@
       <workItem from="1497795272491" duration="1214000" />
       <workItem from="1499093074209" duration="598000" />
       <workItem from="1499782644693" duration="350000" />
-      <workItem from="1499783058828" duration="361000" />
+      <workItem from="1499783058828" duration="631000" />
     </task>
     <task id="LOCAL-00001" summary="集成freemarker">
       <created>1490803632050</created>
@@ -1475,7 +1485,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110372000" />
+    <option name="totallyTimeSpent" value="110642000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
