@@ -1,8 +1,8 @@
 package com.shine.dao;
 
-public class AdminDao {
+public class TestDao {
 
-    public AdminDao() {
+    public TestDao() {
         System.out.println("new");
     }
 

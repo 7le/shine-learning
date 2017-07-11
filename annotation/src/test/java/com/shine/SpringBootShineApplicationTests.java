@@ -1,7 +1,7 @@
 package com.shine;
 
 import com.alibaba.fastjson.JSONArray;
-import com.shine.service.LoginService;
+import com.shine.service.TestService;
 import com.shine.spring.jdkDynamicAopProxy.DynamicSubject;
 import com.shine.spring.jdkDynamicAopProxy.RealSubject;
 import com.shine.spring.jdkDynamicAopProxy.Subject;
@@ -57,8 +57,8 @@ public class SpringBootShineApplicationTests {
     @Test
     public void testMyResourse() {
         ClassPathXMLApplicationContext ctx = new ClassPathXMLApplicationContext("beans.xml");
-        LoginService loginService = (LoginService) ctx.getBean("loginService");
-        loginService.OK();
+        TestService testService = (TestService) ctx.getBean("loginService");
+        testService.OK();
     }
 
     @Test

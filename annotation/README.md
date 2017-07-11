@@ -42,16 +42,6 @@ spring.mvc.view.suffix=.ftl
 spring.freemarker.cache=false
 spring.freemarker.request-context-attribute=request
 
-#mybatis
-mybatis.type-aliases-package=com.shine.model
-mybatis.mapper-locations=classpath:mapper/*.xml
-
-#mapper
-#mappers 多个接口时逗号隔开
-mapper.mappers=com.shine.util.MyMapper
-mapper.not-empty=false
-mapper.identity=MYSQL
-
 #pagehelper
 pagehelper.helperDialect=mysql
 pagehelper.reasonable=true
