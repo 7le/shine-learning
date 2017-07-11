@@ -1,4 +1,4 @@
-# spring-boot-shine
+# shine-learning
 
 > spring-boot
 
