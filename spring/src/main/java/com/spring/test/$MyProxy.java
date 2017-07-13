@@ -1,4 +1,4 @@
-package com.shine.test;
+package com.spring.test;
 
 import com.shine.spring.jdkDynamicAopProxy.DynamicSubject;
 import com.shine.spring.jdkDynamicAopProxy.RealSubject;
@@ -6,8 +6,8 @@ import com.shine.spring.jdkDynamicAopProxy.Subject;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  * @author 作者

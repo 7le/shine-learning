@@ -1,4 +1,4 @@
-package com.shine.spring.jdkDynamicAopProxy;
+package com.spring.jdkDynamicAopProxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

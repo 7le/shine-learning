@@ -1,4 +1,4 @@
-package com.shine.spring.jdkDynamicAopProxy;
+package com.spring.jdkDynamicAopProxy;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
