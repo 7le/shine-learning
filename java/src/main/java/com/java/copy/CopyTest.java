@@ -18,8 +18,7 @@ public class CopyTest {
     }
 
     public static class DaeHan implements Cloneable {
-        //8种基本数据类型  => 浅拷贝
-        //数组、容器对象、引用对象 => 深拷贝
+
         public Baby baby;
         public DaeHan() {
         }
@@ -53,7 +52,7 @@ public class CopyTest {
     public static void main(String[] args) throws CloneNotSupportedException {
         DaeHan daeHan = new DaeHan(new Baby());
         DaeHan daeHan1 = (DaeHan) daeHan.clone();
-
+        //clone 会开辟新的内存 对于浅拷贝来说，类中的属性实际上并没有进行克隆，而只是进行一个赋值操作而已
         System.out.println(daeHan == daeHan1);
         System.out.println(daeHan.baby == daeHan1.baby);
 
@@ -62,6 +61,7 @@ public class CopyTest {
 
         System.out.println(minGuk == minGuk1);
         System.out.println(minGuk.baby == minGuk1.baby);
+
     }
 }
 
