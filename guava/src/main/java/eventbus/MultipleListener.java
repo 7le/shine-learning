@@ -2,6 +2,10 @@ package eventbus;
 
 import com.google.common.eventbus.Subscribe;
 
+/**
+ * MultiListener的使用：
+ * 只需要在要订阅消息的方法上加上@Subscribe注解即可实现对多个消息的订阅，
+ */
 public class MultipleListener {
 
     public Integer lastInteger;
