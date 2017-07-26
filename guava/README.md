@@ -1,5 +1,5 @@
 # shine-learning
 
-> guava 的学习demo
+> guava 中一些比较有意思,也会用到的好东西
 
 
