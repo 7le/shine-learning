@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Demo {
 
     //使用synchronized
-    public class SafeBox1<V> {
+    static class SafeBox1<V> {
         private V value;
 
         public synchronized V get() throws InterruptedException {
@@ -34,7 +34,7 @@ public class Demo {
     }
 
     //使用 ReentrantLock
-    public class SafeBox2<V> {
+    static class SafeBox2<V> {
         private final ReentrantLock lock = new ReentrantLock();
         private final Condition valuePresent = lock.newCondition();
         private final Condition valueAbsent = lock.newCondition();
@@ -70,7 +70,7 @@ public class Demo {
     }
 
     //使用Monitor
-    public class SafeBox3<V> {
+    static class SafeBox3<V> {
         private final Monitor monitor = new Monitor();
         private final Monitor.Guard valuePresent = new Monitor.Guard(monitor) {
             public boolean isSatisfied() {
@@ -103,5 +103,11 @@ public class Demo {
                 monitor.leave();
             }
         }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        SafeBox3 safeBox3=new SafeBox3<String>();
+        safeBox3.set("123");
+        System.out.println("get: "+safeBox3.get());
     }
 }
