@@ -14,7 +14,8 @@ public class Test {
             @Override
             public void run() {
                 try {
-                    ServerBetter.start();
+                    //Server.start();    //同步阻塞式I/O
+                    ServerBetter.start();  //伪异步I/O
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
