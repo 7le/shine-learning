@@ -30,7 +30,7 @@ public class Client {
         }catch(Exception e){
             e.printStackTrace();
         }finally{
-            //一下必要的清理工作
+            //必要的清理工作
             if(in != null){
                 try {
                     in.close();
