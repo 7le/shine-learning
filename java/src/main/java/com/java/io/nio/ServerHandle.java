@@ -116,7 +116,7 @@ public class ServerHandle implements Runnable {
         //发送缓冲区的字节数组
         channel.write(writeBuffer);
 
-        //....处理半包 可以通过Netty结局
+        //....处理半包 可以通过Netty
     }
 
     @Override
