@@ -6,11 +6,13 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * NIO客户端
  */
-public class ClientHandle {
+public class ClientHandle implements Runnable{
 
     private String host;
     private int port;
@@ -85,12 +87,65 @@ public class ClientHandle {
 
         //....处理半包 可以通过Netty
     }
+
     private void doConnect() throws IOException{
         if(socketChannel.connect(new InetSocketAddress(host,port)));
         else socketChannel.register(selector, SelectionKey.OP_CONNECT);
     }
+
     public void sendMsg(String msg) throws Exception{
         socketChannel.register(selector, SelectionKey.OP_READ);
         doWrite(socketChannel, msg);
+    }
+
+    public void stop(){
+        started = false;
+    }
+
+    @Override
+    public void run() {
+        try{
+            doConnect();
+        }catch(IOException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+        //循环遍历selector
+        while(started){
+            try{
+                //无论是否有读写事件发生，selector每隔1s被唤醒一次
+                selector.select(1000);
+                //阻塞,只有当至少一个注册的事件发生的时候才会继续.
+//              selector.select();
+                Set<SelectionKey> keys = selector.selectedKeys();
+                Iterator<SelectionKey> it = keys.iterator();
+                SelectionKey key = null;
+                while(it.hasNext()){
+                    key = it.next();
+                    it.remove();
+                    try{
+                        handleInput(key);
+                    }catch(Exception e){
+                        if(key != null){
+                            key.cancel();
+                            if(key.channel() != null){
+                                key.channel().close();
+                            }
+                        }
+                    }
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                System.exit(1);
+            }
+        }
+        //selector关闭后会自动释放里面管理的资源
+        /*if(selector != null){
+            try{
+                selector.close();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }*/
     }
 }

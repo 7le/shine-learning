@@ -4,7 +4,7 @@ public class Server {
 
     private static int DEFAULT_PORT = 5894;
     private static ServerHandle serverHandle;
-    private static void start(){
+    protected static void start(){
         start(DEFAULT_PORT);
     }
 
