@@ -16,14 +16,14 @@ public class Consumer implements Runnable{
 
     @Override
     public void run() {
-        while (true){
+        while (!queue.isEmpty()){
             try {
-                Message take=queue.take();
-                System.out.println("消费消息：" + take.getId() + ":" + take.getBody());
-            } catch (InterruptedException e) {
+                Message take=queue.poll();
+                if(take!=null)
+                System.out.println(Thread.currentThread().getName()+" 消费消息：" + take.getId() + ":" + take.getBody());
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 }
