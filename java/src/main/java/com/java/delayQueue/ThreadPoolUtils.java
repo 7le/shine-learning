@@ -15,8 +15,8 @@ public class ThreadPoolUtils {
 
         ArrayBlockingQueue<Runnable> arrayBlockingQueue=new ArrayBlockingQueue<Runnable>(10);
 
-        ThreadPoolExecutor threadPool =  new ThreadPoolExecutor(3, 10,
-                30L, TimeUnit.SECONDS,
+        ThreadPoolExecutor threadPool =  new ThreadPoolExecutor(0, 20,
+                60L, TimeUnit.SECONDS,
                 new SynchronousQueue<Runnable>(),   //直接提交
                 //arrayBlockingQueue,           //有界队列
                 //new LinkedBlockingDeque<>(),   //无界队列
