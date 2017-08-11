@@ -1,8 +1,8 @@
 package com.java.delayQueue;
 
-import org.testng.internal.thread.ThreadUtil;
-
+import com.sun.istack.internal.NotNull;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 简易-任务调度
@@ -20,14 +20,14 @@ public class ThreadPoolUtils {
                 new SynchronousQueue<Runnable>(),   //直接提交
                 //arrayBlockingQueue,           //有界队列
                 //new LinkedBlockingDeque<>(),   //无界队列
-                new ThreadUtil.ThreadFactoryImpl("pool-time-task-thread"));
+                new ThreadFactoryImpl("pool-time-task-thread-"));
         Consumer consumer=new Consumer(delayQueue);
         //输入数据
         Message m1 = new Message(1,"3S", 3000);
         delayQueue.offer(m1);
 
 
-        for (int i = 1; i <= 1; i++) {
+        for (int i = 1; i <= 3; i++) {
             threadPool.execute(consumer);
         }
 
@@ -63,4 +63,15 @@ public class ThreadPoolUtils {
         System.out.println("获取活动的线程数:"+threadPool.getActiveCount());*/
     }
 
+    private static class ThreadFactoryImpl implements ThreadFactory {
+        private String prex;
+        private AtomicInteger index = new AtomicInteger(0);
+        public ThreadFactoryImpl(String prex) {
+            this.prex = prex;
+        }
+        @Override
+        public Thread newThread(@NotNull Runnable r) {
+            return new Thread(r, prex + index.getAndIncrement());
+        }
+    }
 }
