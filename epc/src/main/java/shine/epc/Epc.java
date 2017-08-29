@@ -12,15 +12,15 @@ public interface Epc {
      * 添加一个待处理事件到epc中
      * EPC保证拥有相同冲突体的事件不会被并发被执行
      */
-    void pushEvent();
+    void pushEvent(EpcEvent event);
 
     /**
      * 处理完所有待处理事件后，关闭epc
      */
-    void shutdown();
+    void shutdown(EpcEvent event);
 
     /**
      * 立刻关闭epc，丢弃所有待处理事件
      */
-    void shutdownNow();
+    void shutdownNow(EpcEvent event);
 }
