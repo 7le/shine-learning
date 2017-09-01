@@ -1,7 +1,7 @@
 package shine.epc.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import shine.epc.EpcEvent;
 
 import java.util.concurrent.*;
@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class EpcThreadPool extends BaseEpc{
 
-    private static final Log log = LogFactory.getLog(EpcThreadPool.class);
+    private final static Logger LOG = LoggerFactory.getLogger(EpcThreadPool.class);
 
     /**
      * 缺省大小为 cpu个数的 2倍

@@ -10,8 +10,8 @@
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.5.6</version>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>RELEASE</version>
         </dependency>
     </dependencies>
 
