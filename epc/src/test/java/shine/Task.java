@@ -12,6 +12,7 @@ public class Task extends BaseEpcEvent {
     @Override
     protected int checkParam(EpcEventParam param) throws Exception {
         System.out.println(1);
+        System.out.println(super.getName());
         return EpcCode.SUCCESS;
     }
 

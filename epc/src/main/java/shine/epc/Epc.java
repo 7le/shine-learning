@@ -17,10 +17,10 @@ public interface Epc {
     /**
      * 处理完所有待处理事件后，关闭epc
      */
-    void shutdown(EpcEvent event);
+    void shutdown();
 
     /**
      * 立刻关闭epc，丢弃所有待处理事件
      */
-    void shutdownNow(EpcEvent event);
+    void shutdownNow();
 }

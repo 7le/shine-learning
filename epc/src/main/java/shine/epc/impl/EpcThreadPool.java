@@ -112,13 +112,13 @@ public class EpcThreadPool extends BaseEpc{
     }
 
     @Override
-    public void shutdown(EpcEvent event) {
+    public void shutdown() {
         isShutdown = true;
         executor.shutdown();
     }
 
     @Override
-    public void shutdownNow(EpcEvent event) {
+    public void shutdownNow() {
         isShutdown = true;
         executor.shutdownNow();
         mainQueue.clear();

@@ -11,10 +11,15 @@ import shine.epc.impl.EpcFactory;
 public class Test {
 
     private static Epc epc;
+    private static Epc simple;
 
     public static void main(String[] args) {
-        epc = EpcFactory.createThreadPoolEpc();
+        epc = EpcFactory.createEpcThreadPool();
         EpcEvent event = new Task();
         epc.pushEvent(event);
+
+        simple=EpcFactory.createEpcSimple();
+        EpcEvent epcEvent=new Task();
+        simple.pushEvent(event);
     }
 }
