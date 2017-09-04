@@ -41,4 +41,10 @@ public class EpcFactory {
         return new EpcSimple();
     }
 
+    /**
+     * 延时 epc
+     */
+    public static EpcScheduled createEpcScheduled() {
+        return new EpcScheduled();
+    }
 }
