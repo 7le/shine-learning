@@ -19,16 +19,22 @@ public abstract class BaseEpc implements Epc{
      */
     protected class Task implements Runnable {
         EpcEvent te;
+        Collision co;
 
-        Task(EpcEvent event) {
+        Task(EpcEvent event,Collision collision) {
             if (event == null)
                 throw new NullPointerException("event is null.");
 
             te = event;
+            co = collision;
         }
 
         public EpcEvent getEvent() {
             return te;
+        }
+
+        public Collision getCollision() {
+            return co;
         }
 
         @Override

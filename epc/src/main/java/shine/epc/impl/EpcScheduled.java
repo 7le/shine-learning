@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  *
  */
-public class EpcScheduled extends BaseEpc{
+public class EpcScheduled extends BaseEpc {
     private final static Logger log = LoggerFactory.getLogger(EpcScheduled.class);
     private ScheduledExecutorService es;
     private boolean isShutdown;
@@ -24,19 +24,19 @@ public class EpcScheduled extends BaseEpc{
 
     @Override
     @Deprecated
-    public void pushEvent(EpcEvent event) {
+    public void pushEvent(EpcEvent event, Collision collision) {
         if (isShutdown) return;
         try {
-            es.schedule(new Task(event), 0, TimeUnit.SECONDS);
+            es.schedule(new Task(event, collision), 0, TimeUnit.SECONDS);
         } catch (Exception ex) {
             log.error("execute event error:", ex);
         }
     }
 
-    public void pushEvent(EpcEvent event, long delay,TimeUnit unit) {
+    public void pushEvent(EpcEvent event, Collision collision, long delay, TimeUnit unit) {
         if (isShutdown) return;
         try {
-            es.schedule(new Task(event),delay, unit);
+            es.schedule(new Task(event, collision), delay, unit);
         } catch (Exception ex) {
             log.error("execute event error:", ex);
         }

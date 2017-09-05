@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
  * 简单的事件处理中心
  * 按时间顺序排队
  */
-public class EpcSimple extends BaseEpc{
+public class EpcSimple extends BaseEpc {
 
     private final static Logger log = LoggerFactory.getLogger(EpcSimple.class);
     private ExecutorService es;
@@ -23,10 +23,10 @@ public class EpcSimple extends BaseEpc{
     }
 
     @Override
-    public void pushEvent(EpcEvent event) {
+    public void pushEvent(EpcEvent event, Collision collision) {
         if (isShutdown) return;
         try {
-            es.submit(new Task(event));
+            es.submit(new Task(event, collision));
         } catch (Exception ex) {
             log.error("execute event error:", ex);
         }

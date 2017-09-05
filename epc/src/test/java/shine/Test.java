@@ -21,15 +21,15 @@ public class Test {
     public static void main(String[] args) {
         epc = EpcFactory.createEpcThreadPool();
         EpcEvent event = new Task();
-        epc.pushEvent(event);
+        epc.pushEvent(event, null);
 
         simple = EpcFactory.createEpcSimple();
         EpcEvent epcEvent = new Task();
-        simple.pushEvent(epcEvent);
+        simple.pushEvent(epcEvent, null);
 
         scheduled = EpcFactory.createEpcScheduled();
         EpcEvent epcEvent1 = new Task();
-        scheduled.pushEvent(epcEvent1, 20L, TimeUnit.SECONDS);
-        scheduled.pushEvent(epcEvent1, 5L, TimeUnit.SECONDS);
+        scheduled.pushEvent(epcEvent1, null, 20L, TimeUnit.SECONDS);
+        scheduled.pushEvent(epcEvent1, null, 5L, TimeUnit.SECONDS);
     }
 }
