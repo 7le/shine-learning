@@ -21,7 +21,7 @@ public interface EpcEvent {
     void setEventParam(EpcEventParam param);
 
     /**
-     * 执行事件该事件
+     * 执行事件
      */
     void execute();
 }

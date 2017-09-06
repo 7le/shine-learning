@@ -1,5 +1,7 @@
 package shine.epc;
 
+import shine.epc.impl.Collision;
+
 /**
  * @author hq
  * @Description: 事件处理中心接口
@@ -12,7 +14,7 @@ public interface Epc {
      * 添加一个待处理事件到epc中
      * EPC保证拥有相同冲突体的事件不会被并发被执行
      */
-    void pushEvent();
+    void pushEvent(EpcEvent event, Collision collision);
 
     /**
      * 处理完所有待处理事件后，关闭epc
