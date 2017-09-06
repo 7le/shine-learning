@@ -3,6 +3,7 @@ package shine.epc.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import shine.epc.EpcEvent;
+import shine.epc.MsecCounter;
 
 import java.util.Enumeration;
 import java.util.concurrent.*;
@@ -16,63 +17,46 @@ public class EpcThreadPool extends BaseEpc {
 
     private final static Logger LOG = LoggerFactory.getLogger(EpcThreadPool.class);
 
-    /**
-     * 缺省大小为 cpu个数的 2倍
-     */
+    /** 缺省大小为 cpu个数的 2倍 */
     static final int DEFAULT_POOL_SIZE = Runtime.getRuntime().availableProcessors() * 2;
 
-    /**
-     * 缺省最大线程数为 cpu个数的4倍
-     */
+    /** 缺省最大线程数为 cpu个数的4倍 */
     static final int DEFAULT_MAX_SIZE = Runtime.getRuntime().availableProcessors() * 4;
 
-    /**
-     * 线程池维护线程的最小数量
-     */
+    /** 线程池维护线程的最小数量 */
     int corePoolSize = DEFAULT_POOL_SIZE;
 
-    /**
-     * 线程池维护线程的最大数量
-     */
+    /** 线程池维护线程的最大数量 */
     int maxPoolSize = DEFAULT_MAX_SIZE;
 
-    /**
-     * 执行任务的线程池，事件是伪装成Task(任务)执行的。
-     */
+    /** 执行任务的线程池，事件是伪装成Task(任务)执行的。*/
     ThreadPoolExecutor executor = null;
 
-    /**
-     * 主队列，用于存放尚未处理的(事件)任务的队列
-     */
+    /** 主队列，用于存放尚未处理的(事件)任务的队列 */
     ConcurrentLinkedQueue<Task> mainQueue = null;
 
-    /**
-     * 冲突等待队列表，用于存放等待同类型冲突(Collision)处理完成后，再执行的任务队列；每种冲突(Collision)一个队列
-     */
+    /** 冲突等待队列表，用于存放等待同类型冲突(Collision)处理完成后，再执行的任务队列；每种冲突(Collision)一个队列 */
     ConcurrentHashMap<Collision, ConcurrentLinkedQueue<Task>> waitingCollsQueueMap = null;
 
-    /**
-     * 冲突执行表，用于存放正在执行任务的占用冲突(Collision)；占用冲突被释放后，等待的任务才能执行
-     */
+    /** 冲突执行表，用于存放正在执行任务的占用冲突(Collision)；占用冲突被释放后，等待的任务才能执行 */
     ConcurrentHashMap<Collision, Task> runningCollsMap = null;
 
-    /**
-     * 正在处理的任务数量,逻辑上应保证该数字 不大于  线程的数量(poolSize)
-     */
+    /** 正在处理的任务数量,逻辑上应保证该数字 不大于  线程的数量(poolSize) */
     AtomicInteger runningTaskNum = new AtomicInteger(0);
 
-    /**
-     * 加入event队列锁，防止多线程加入Event时，出现错误。
-     */
+    /** 加入event队列锁，防止多线程加入Event时，出现错误。 */
     ReentrantLock pushLock = new ReentrantLock();
 
-    /**
-     * 等待执行的顶级任务。
-     */
+    /** 执行任务的耗费毫秒数统计 */
+    MsecCounter runningCounter = new MsecCounter();
+
+    /** 等待任务的耗费毫秒数统计 */
+    MsecCounter waitingCounter = new MsecCounter();
+
+    /** 等待执行的顶级任务。*/
     Task topTask = null;
-    /**
-     * 是否关闭
-     */
+
+    /** 是否关闭 */
     boolean isShutdown = false;
 
     EpcThreadPool() {
@@ -152,6 +136,9 @@ public class EpcThreadPool extends BaseEpc {
     private void beginTask(Task task) {
         // 结束等待任务计时
         task.endProfile();
+
+        // 统计任务等待时间和数量
+        waitingCounter.count(task.runTimeMills());
 
         // EPC已被强制关闭
         if (executor.isTerminating())
@@ -270,6 +257,30 @@ public class EpcThreadPool extends BaseEpc {
         return runningTaskNum.get();
     }
 
+    public long getRunningTaskCount() {
+        return runningCounter.getRunCount();
+    }
+
+    public long getRunningMillsCount() {
+        return runningCounter.getMillsCount();
+    }
+
+    public String printRunningCounter() {
+        return runningCounter.toString();
+    }
+
+    public long getWaitingTaskCount() {
+        return waitingCounter.getRunCount();
+    }
+
+    public long getWaitingMillsCount() {
+        return waitingCounter.getMillsCount();
+    }
+
+    public String printWaitingCounter() {
+        return waitingCounter.toString();
+    }
+
     public long getTaskCount() {
         return executor.getTaskCount();
     }
@@ -295,6 +306,10 @@ public class EpcThreadPool extends BaseEpc {
         sb.append(getRunningCollsMapLen());
         sb.append(";getMainQueueLen=");
         sb.append(getMainQueueLen());
+        sb.append(";getRunningCounter=");
+        sb.append(runningCounter);
+        sb.append(";getWaitingCounter=");
+        sb.append(waitingCounter);
         sb.append(";getTaskCount=");
         sb.append(getTaskCount());
         sb.append(";getCompletedTaskCount=");

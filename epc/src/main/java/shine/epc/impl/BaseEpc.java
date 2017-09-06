@@ -8,13 +8,17 @@ import shine.epc.EpcEvent;
  */
 public abstract class BaseEpc implements Epc{
 
-    // 任务执行之前被调用
+    /**
+     * 任务执行之前被调用
+     */
     protected void beforeRun(Task t) { }
 
-    // 任务执行之后被调用
+    /**
+     * 任务执行之后被调用
+     */
     protected void afterRun(Task t) { }
 
-    /*
+    /**
      * 在线程池中，执行Event的辅助类
      */
     protected class Task implements Runnable {
