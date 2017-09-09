@@ -18,6 +18,7 @@ public class Task extends BaseEpcEvent {
 
     @Override
     protected void doBiz() throws Exception {
+        Thread.sleep(6000L);
         System.out.println(2);
     }
 
