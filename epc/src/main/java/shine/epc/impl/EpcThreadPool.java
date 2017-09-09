@@ -6,6 +6,8 @@ import shine.epc.EpcEvent;
 import shine.epc.MsecCounter;
 
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
@@ -130,6 +132,9 @@ public class EpcThreadPool extends BaseEpc {
 
         // 检测主队列是否有可执行的事件
         checkMainQueue();
+
+        // 检测死锁
+        checkDeadlock();
     }
 
     // 开始执行任务前的准备工作
@@ -146,11 +151,32 @@ public class EpcThreadPool extends BaseEpc {
 
         // 正在处理的任务数 加一
         runningTaskNum.incrementAndGet();
-
+        if (task.getCollision() != null
+                && !task.getCollision().equals(Collision.TOP_COLLISION)) {
+            runningCollsMap.put(task.getCollision(), task);
+        }
         //开始执行任务计时
         task.beginProfile();
         // 执行任务
         executor.execute(task);
+    }
+
+    // 任务完成后的收尾工作
+    private void endTask(Task task) {
+        // 结束执行任务计时
+        task.endProfile();
+        // 统计任务执行时间和数量
+        runningCounter.count(task.runTimeMills());
+
+        // 正在处理的任务数 减一
+        runningTaskNum.decrementAndGet();
+
+        if (task.getCollision() != null) {
+            if (task.getCollision().equals(Collision.TOP_COLLISION))
+                topTask = null;
+            else
+                runningCollsMap.remove(task.getCollision());// 在执行池中，清除相应的 冲突
+        }
     }
 
     // 检测主队列是否有可执行的事件
@@ -201,6 +227,103 @@ public class EpcThreadPool extends BaseEpc {
         } finally {
             pushLock.unlock();
         }
+    }
+
+    // 死锁检测，检查线程池是否存在死锁情况
+    private void checkDeadlock() {
+        pushLock.lock();
+        try {
+            // 检查 冲突运行队列 和 当前运行线程数 是否匹配
+            if (runningTaskNum.get() < runningCollsMap.size()) {// 运行的线程数 比 记录的运行冲突数少，肯定是发生了死锁
+                StringBuilder sb = new StringBuilder();// 生成日志
+                sb.append("Found Deadlock!!! ");
+                sb.append("runningTaskNum is [");
+                sb.append(runningTaskNum.get());
+                sb.append("], runningCollsMap.size is [");
+                sb.append(runningCollsMap.size());
+                sb.append("], runningCollsMap.keys is [");
+                sb.append(runningCollsMap.keySet());
+                sb.append("]; waitingCollsQueueMap.size is [");
+                sb.append(waitingCollsQueueMap.size());
+                sb.append("]; waitingCollsQueueMap.keys is [");
+                sb.append(waitingCollsQueueMap.keySet());
+                sb.append("].");
+                LOG.error(sb.toString());//写入日志
+
+
+                runningCollsMap.clear();// 清除运行任务 冲突，理论上此时本应该为空的，再清一下防止死锁
+
+                // 已经死锁的等待任务,每种冲突执行一个
+                Set<Collision> colliSet = waitingCollsQueueMap.keySet();
+                for (Iterator<Collision> itr = colliSet.iterator(); itr.hasNext();) {
+                    Collision colls = itr.next();
+
+                    ConcurrentLinkedQueue<Task> queue = waitingCollsQueueMap.get(colls);
+                    if (!queue.isEmpty()) {
+                        beginTask(queue.poll());// 执行
+                    }
+
+                    if (queue.isEmpty())
+                        waitingCollsQueueMap.remove(colls);
+                }
+            }
+        } finally {
+            pushLock.unlock();
+        }
+    }
+
+    protected void afterRun(Task t) {
+        pushLock.lock();
+        try {
+            endTask(t);
+        } finally {
+            pushLock.unlock();
+        }
+
+        if (t.getCollision() != null) {// 检测 冲突队列，看有无任务可做
+            if(checkCollisionQueue(t.getCollision())) {
+                return; // 如果有任务被激活 就不再往下检测了
+            }
+        }
+
+        // 检测死锁
+        checkDeadlock();
+
+        checkMainQueue();//再检测主队列
+
+        if (isShutdown && !haveWaitingTask())// 没有等待的 就可以关闭epc了
+            executor.shutdown();
+    }
+
+    protected void beforeRun(Task t) {
+
+    }
+
+    // 检测冲突队列是否有可执行的事件
+    // 冲突队列中还有事件可被执行 返回True； 冲突队列已空 返回false
+    private boolean checkCollisionQueue(Collision colls) {
+        if (colls == null) return false;// null 表示 这个任务没有 冲突要求
+
+        pushLock.lock();
+        try {
+            if (waitingCollsQueueMap.containsKey(colls)) {// 还有类似冲突的任务在等待
+                ConcurrentLinkedQueue<Task> queue = waitingCollsQueueMap.get(colls);
+                beginTask(queue.poll());
+
+                if (queue.isEmpty())
+                    waitingCollsQueueMap.remove(colls);
+                return true;
+            }
+        } finally {
+            pushLock.unlock();
+        }
+
+        return false;
+    }
+
+    // 是否还有任务在map中等待,true还有，false没有
+    private boolean haveWaitingTask() {
+        return !(mainQueue.size() == 0 && waitingCollsQueueMap.size() == 0);
     }
 
     @Override

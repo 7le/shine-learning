@@ -21,7 +21,10 @@ public class EpcScheduled extends BaseEpc {
         isShutdown = false;
     }
 
-
+    /**
+     * @Deprecated 推荐使用延时的接口
+     *
+     */
     @Override
     @Deprecated
     public void pushEvent(EpcEvent event, Collision collision) {
