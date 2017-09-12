@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import shine.epc.EpcCode;
 import shine.epc.EpcEvent;
+import shine.epc.PerfTrace;
 
 /**
  * epc 基础处理
@@ -14,8 +15,11 @@ public abstract class BaseEpcEvent implements EpcEvent{
 
     protected EpcEventParam param = null;
 
-    // 事件名称
+    /** 事件名称 */
     private String eventName;
+
+    /** 性能调试 */
+    protected PerfTrace perfTrace;
 
     /**
      * 事件名称，需要保证全局唯一
@@ -52,33 +56,42 @@ public abstract class BaseEpcEvent implements EpcEvent{
     /**
      * 执行事件，调用回调方法处理整个执行过程
      */
-    @Override
     public void execute() {
-
+        // 开启 性能调试
+        perfTrace = new PerfTrace(getClass().getSimpleName(), false);// release必须设置为false
         try {
             int errCode;
+            perfTrace.begin();
             beforeExecute();
+            perfTrace.step("before-事件运行");
             try {
                 errCode = checkParam(param);
+                perfTrace.step("checkParam()");
             } catch (Exception ex) {
                 ex.printStackTrace();
                 LOG.error("Unhandled check param exception:", ex);
-                errCode = EpcCode.INVALID_PARAM;
+                errCode = EpcCode.INVALID_PARAM;// 一个特定的错误号
             }
 
             if (errCode == EpcCode.SUCCESS) {
                 doBiz();
+                perfTrace.step("doBiz()");
             } else {
                 doParamError(errCode);
+                perfTrace.step("doParamError()");
             }
         } catch (Exception ex) {
             handleExecption(ex);
+            perfTrace.step("handleException()");
             ex.printStackTrace();
         } finally {
             afterExecute();
+            perfTrace.step("afterExecute()");
             // 清理参数
             param.clear();
             param = null;
+
+            perfTrace.end();
         }
     }
 
