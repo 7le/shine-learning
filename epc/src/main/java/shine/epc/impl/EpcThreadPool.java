@@ -106,23 +106,29 @@ public class EpcThreadPool extends BaseEpc {
                     "-worker-";
         }
 
+        @Override
         public Thread newThread(Runnable r) {
             Thread t = new Thread(group, r,
                     namePrefix + threadNumber.getAndIncrement(),
                     0);
-            if (t.isDaemon())
+            if (t.isDaemon()) {
                 t.setDaemon(false);
-            if (t.getPriority() != Thread.NORM_PRIORITY)
+            }
+            if (t.getPriority() != Thread.NORM_PRIORITY) {
                 t.setPriority(Thread.NORM_PRIORITY);
+            }
             return t;
         }
     }
 
     @Override
     public void pushEvent(EpcEvent event, Collision collision) {
-        if (isShutdown) return;
-        if (event == null)
+        if (isShutdown) {
+            return;
+        }
+        if (event == null) {
             throw new NullPointerException("Event is null.");
+        }
         Task task = new Task(event, collision);
 
         //开始等待任务计时
@@ -146,8 +152,9 @@ public class EpcThreadPool extends BaseEpc {
         waitingCounter.count(task.runTimeMills());
 
         // EPC已被强制关闭
-        if (executor.isTerminating())
+        if (executor.isTerminating()) {
             return;
+        }
 
         // 正在处理的任务数 加一
         runningTaskNum.incrementAndGet();
@@ -172,10 +179,11 @@ public class EpcThreadPool extends BaseEpc {
         runningTaskNum.decrementAndGet();
 
         if (task.getCollision() != null) {
-            if (task.getCollision().equals(Collision.TOP_COLLISION))
+            if (task.getCollision().equals(Collision.TOP_COLLISION)) {
                 topTask = null;
-            else
+            } else {
                 runningCollsMap.remove(task.getCollision());// 在执行池中，清除相应的 冲突
+            }
         }
     }
 
@@ -183,7 +191,9 @@ public class EpcThreadPool extends BaseEpc {
     private void checkMainQueue() {
         int cur = runningTaskNum.get();// 当前并发执行的任务数
         if (cur >= maxPoolSize)//已到最大任务数，等待有任务执行完后，再执行。
+        {
             return;
+        }
 
         pushLock.lock();
         try {
@@ -263,8 +273,9 @@ public class EpcThreadPool extends BaseEpc {
                         beginTask(queue.poll());// 执行
                     }
 
-                    if (queue.isEmpty())
+                    if (queue.isEmpty()) {
                         waitingCollsQueueMap.remove(colls);
+                    }
                 }
             }
         } finally {
@@ -272,6 +283,7 @@ public class EpcThreadPool extends BaseEpc {
         }
     }
 
+    @Override
     protected void afterRun(Task t) {
         pushLock.lock();
         try {
@@ -292,9 +304,12 @@ public class EpcThreadPool extends BaseEpc {
         checkMainQueue();//再检测主队列
 
         if (isShutdown && !haveWaitingTask())// 没有等待的 就可以关闭epc了
+        {
             executor.shutdown();
+        }
     }
 
+    @Override
     protected void beforeRun(Task t) {
 
     }
@@ -302,7 +317,9 @@ public class EpcThreadPool extends BaseEpc {
     // 检测冲突队列是否有可执行的事件
     // 冲突队列中还有事件可被执行 返回True； 冲突队列已空 返回false
     private boolean checkCollisionQueue(Collision colls) {
-        if (colls == null) return false;// null 表示 这个任务没有 冲突要求
+        if (colls == null) {
+            return false;// null 表示 这个任务没有 冲突要求
+        }
 
         pushLock.lock();
         try {
@@ -310,8 +327,9 @@ public class EpcThreadPool extends BaseEpc {
                 ConcurrentLinkedQueue<Task> queue = waitingCollsQueueMap.get(colls);
                 beginTask(queue.poll());
 
-                if (queue.isEmpty())
+                if (queue.isEmpty()) {
                     waitingCollsQueueMap.remove(colls);
+                }
                 return true;
             }
         } finally {

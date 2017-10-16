@@ -27,8 +27,9 @@ public abstract class BaseEpcEvent implements EpcEvent{
      * @return 唯一标识的事件名称
      */
     public String getName() {
-        if (eventName == null)
+        if (eventName == null) {
             eventName = this.getClass().getSimpleName();
+        }
         return eventName;
     }
 
@@ -56,6 +57,7 @@ public abstract class BaseEpcEvent implements EpcEvent{
     /**
      * 执行事件，调用回调方法处理整个执行过程
      */
+    @Override
     public void execute() {
         // 开启 性能调试
         perfTrace = new PerfTrace(getClass().getSimpleName(), false);// release必须设置为false
@@ -124,8 +126,9 @@ public abstract class BaseEpcEvent implements EpcEvent{
      * @param ex 执行事件时抛出的异常
      */
     protected void handleExecption(Exception ex) {
-        if (LOG.isErrorEnabled())
+        if (LOG.isErrorEnabled()) {
             LOG.error("event error:", ex);
+        }
         ex.printStackTrace();
         try {
             //TODO 通用消息回包

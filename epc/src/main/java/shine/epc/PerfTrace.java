@@ -29,19 +29,25 @@ public class PerfTrace {
     }
 
     public void begin() {
-        if (!enable) return;
+        if (!enable) {
+            return;
+        }
         init = System.currentTimeMillis();
         last = init;
         print(name + ", begin trace at " + last);
     }
 
     public void step() {
-        if (!enable) return;
+        if (!enable) {
+            return;
+        }
         step(null);
     }
 
     public void step(String desc) {
-        if (!enable) return;
+        if (!enable) {
+            return;
+        }
         long cur = System.currentTimeMillis();
         long cost = cur - last;
         print(name + ", step: " + desc + ", elapsed: " + (cost) + " ms");
@@ -52,7 +58,9 @@ public class PerfTrace {
     }
 
     public void end() {
-        if (!enable) return;
+        if (!enable) {
+            return;
+        }
         long cur = System.currentTimeMillis();
         print(name + ", end trace, all elapsed: " + (cur - init) + " ms");
         last = cur;

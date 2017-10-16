@@ -36,8 +36,9 @@ public class MsecCounter implements Serializable {
 	}
 
 	public MsecCounter(int size) {
-		if (size < 1)
-			throw new IllegalArgumentException("Invalid size: " + size);
+		if (size < 1) {
+            throw new IllegalArgumentException("Invalid size: " + size);
+        }
 		
 		this.size = size;
 		msecCount = 0;
@@ -111,6 +112,7 @@ public class MsecCounter implements Serializable {
 		return longest[size - 1];
 	}
 	
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Avg/Total/Num: ");

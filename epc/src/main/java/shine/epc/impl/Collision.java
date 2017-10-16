@@ -30,14 +30,16 @@ public class Collision {
 		return TOP_COLLISION;
 	}
 	
+	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Collision) {
-			if (this == other)
-				return true;
-			else if (colls == null || ((Collision)other).colls == null)
-				return false;
-			else 
-				return colls.equals(((Collision)other).colls);
+			if (this == other) {
+                return true;
+            } else if (colls == null || ((Collision)other).colls == null) {
+                return false;
+            } else {
+                return colls.equals(((Collision) other).colls);
+            }
 		}
 		
 		return false;

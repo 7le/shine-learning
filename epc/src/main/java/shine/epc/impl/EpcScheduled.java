@@ -28,7 +28,9 @@ public class EpcScheduled extends BaseEpc {
     @Override
     @Deprecated
     public void pushEvent(EpcEvent event, Collision collision) {
-        if (isShutdown) return;
+        if (isShutdown) {
+            return;
+        }
         try {
             es.schedule(new Task(event, collision), 0, TimeUnit.SECONDS);
         } catch (Exception ex) {
@@ -37,7 +39,9 @@ public class EpcScheduled extends BaseEpc {
     }
 
     public void pushEvent(EpcEvent event, Collision collision, long delay, TimeUnit unit) {
-        if (isShutdown) return;
+        if (isShutdown) {
+            return;
+        }
         try {
             es.schedule(new Task(event, collision), delay, unit);
         } catch (Exception ex) {

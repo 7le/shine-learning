@@ -1,11 +1,11 @@
 package shine.epc.impl;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import shine.epc.EpcEvent;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * 简单的事件处理中心
@@ -18,13 +18,17 @@ public class EpcSimple extends BaseEpc {
     private boolean isShutdown;
 
     EpcSimple() {
-        es = Executors.newFixedThreadPool(1);
+        es = new ThreadPoolExecutor(1, 1,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(),new ThreadFactoryBuilder().setNameFormat("EpcSimple-").build());
         isShutdown = false;
     }
 
     @Override
     public void pushEvent(EpcEvent event, Collision collision) {
-        if (isShutdown) return;
+        if (isShutdown) {
+            return;
+        }
         try {
             es.submit(new Task(event, collision));
         } catch (Exception ex) {

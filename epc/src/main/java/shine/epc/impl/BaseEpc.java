@@ -26,8 +26,9 @@ public abstract class BaseEpc implements Epc{
         Collision co;
 
         Task(EpcEvent event,Collision collision) {
-            if (event == null)
+            if (event == null) {
                 throw new NullPointerException("event is null.");
+            }
 
             te = event;
             co = collision;
