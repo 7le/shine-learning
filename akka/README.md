@@ -2,7 +2,7 @@
 
 > akka的学习
 
-> actor 生命周期
+``actor 生命周期``
 
 ![actor-生命周期](http://oqipguzbl.bkt.clouddn.com/actor.png)
 
