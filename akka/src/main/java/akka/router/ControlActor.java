@@ -2,46 +2,47 @@ package akka.router;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.dispatcher.StartCommand;
-import akka.routing.*;
+import akka.dispatcher.WriterActor;
+import akka.routing.FromConfig;
+import akka.routing.RoundRobinRoutingLogic;
+import akka.routing.Router;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author hq
+ * @Description: Akka通过Router机制,来有效的分配消息给actor
  * @date 2017年10月19日
  * @since v1.0.0
  */
 public class ControlActor extends AbstractActor {
 
-    Router router;
-    {
-        List<Routee> routees = new ArrayList<Routee>();
-        for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(StartCommand.class));
-            getContext().watch(r);
-            routees.add(new ActorRefRoutee(r));
-        }
-        router = new Router(new RoundRobinRoutingLogic(), routees);
-    }
-
     @Override
     public Receive createReceive() {
         return receiveBuilder()
-                .match(StartCommand.class, startCommand -> router.route(startCommand, getSender()))
+                .match(StartCommand.class, startCommand -> {
+                    List<ActorRef> actors = createActors(startCommand.getActorCount());
+                    Router router = new Router(new RoundRobinRoutingLogic());
+                    for (ActorRef actor : actors) {
+                        router = router.addRoutee(actor);
+                        //需要注意,需要接收addRoutee的返回
+                    }
+                    router.route("Insert",ActorRef.noSender());
+                })
                 .build();
     }
 
-    public static void main(String[] args) {
-        final ActorSystem system= ActorSystem.create("router");
-        // 创建一个到greeter Actor的管道
+    private List<ActorRef> createActors(int actorCount) {
+        Props props = Props.create(WriterActor.class).withDispatcher("writer-dispatcher");
 
-        ActorRef router = system.actorOf(FromConfig.getInstance().props(Props.create(StartCommand.class)), "router");
-
-
-        router.tell(new StartCommand(10),ActorRef.noSender());
+        List<ActorRef> actors = new ArrayList<>(actorCount);
+        for (int i = 0; i < actorCount; i++) {
+            actors.add(getContext().actorOf(FromConfig.getInstance().props(Props.create(StartCommand.class)),
+                    "router2"));
+        }
+        return actors;
     }
 }
