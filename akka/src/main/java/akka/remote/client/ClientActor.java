@@ -2,6 +2,7 @@ package akka.remote.client;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
+import akka.actor.ActorSelection;
 
 /**
  * @author hq
@@ -11,11 +12,11 @@ import akka.actor.ActorRef;
  */
 public class ClientActor extends AbstractActor {
 
-    private ActorRef remoteServer = null;
+    private ActorSelection remoteServer = null;
     private long start;
     final static String EOF="EOF";
 
-    public ClientActor(ActorRef remoteServer) {
+    public ClientActor(ActorSelection remoteServer) {
         this.remoteServer = remoteServer;
     }
 

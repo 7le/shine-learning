@@ -35,8 +35,8 @@ public class MapReduceServer {
         mapRouter = system.actorOf(Props.create(MapActor.class,reduceRouter).withRouter(new RoundRobinPool(no_of_map_workers)));
 
         // 创建 MapReduce Actor 远程Actor
-        Props props = Props.create(MapReduceActor.class,aggregateActor,mapRouter).withDispatcher("priorityMailBox-dispatcher");
-        mapReduceActor = system.actorOf(props, "MapReduceActor");
+        mapReduceActor = system.actorOf(Props.create(MapReduceActor.class,aggregateActor,mapRouter)
+                .withDispatcher("priorityMailBox-dispatcher"), "MapReduceActor");
     }
 
     public static void main(String[] args) {

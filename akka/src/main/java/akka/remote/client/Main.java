@@ -1,9 +1,6 @@
 package akka.remote.client;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSelection;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
+import akka.actor.*;
 import com.typesafe.config.ConfigFactory;
 
 /**
@@ -23,12 +20,12 @@ public class Main {
             .getConfig("MapReduceClientApp"));
 
         //实例化远程Actor
-        final ActorSelection remoteActor =system.actorSelection("akka.tcp://MapReduceApp@127.0.0.1:2552/user/MapReduceActor");
-
+        final ActorSelection actorSelection =system.actorSelection("akka.tcp://MapReduceApp@127.0.0.1:2552/user/MapReduceActor");
+        actorSelection.tell("测试获得远程Actor",ActorRef.noSender());
         //实例化Actor的管道
         final ActorRef fileReadActor = system.actorOf(Props.create(FileReadActor.class));
 
-        final ActorRef clientActor = system.actorOf(Props.create(ClientActor.class, remoteActor.anchor()));
+        final ActorRef clientActor = system.actorOf(Props.create(ClientActor.class, actorSelection));
 
         //发送文件名给fileReadActor.设置sender或者说回调的Actor为clientActor
         fileReadActor.tell(fileName,clientActor);
