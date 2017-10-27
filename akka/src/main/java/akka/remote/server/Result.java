@@ -1,7 +1,7 @@
 package akka.remote.server;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: Result
  * @date 2017年10月20日
  * @since v1.0.0

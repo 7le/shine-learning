@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: ReduceActor把接收到的文本内容分发给MapActor做Map计算
  * @date 2017年10月20日
  * @since v1.0.0

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: FileReadActor从文本文件中读取文件
  * @date 2017年10月20日
  * @since v1.0.0

@@ -5,7 +5,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSelection;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: ClientActor发送给远端的服务端
  * @date 2017年10月20日
  * @since v1.0.0

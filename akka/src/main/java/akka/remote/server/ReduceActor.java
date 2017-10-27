@@ -8,7 +8,7 @@ import java.util.NavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: MapAcotr计算把结果都发送给ReduceActor, 做汇总reduce计算
  * @date 2017年10月20日
  * @since v1.0.0

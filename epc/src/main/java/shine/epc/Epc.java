@@ -3,7 +3,7 @@ package shine.epc;
 import shine.epc.impl.Collision;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: 事件处理中心接口
  * @date 2017年8月28日
  * @since v1.0.0

@@ -8,7 +8,7 @@ import akka.dispatcher.StartCommand;
 import com.typesafe.config.ConfigFactory;
 
 /**
- * @author hq
+ * @author 7le
  * @date 2017年10月19日
  * @since v1.0.0
  */

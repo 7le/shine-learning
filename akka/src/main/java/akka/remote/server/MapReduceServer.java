@@ -7,7 +7,7 @@ import akka.routing.RoundRobinPool;
 import com.typesafe.config.ConfigFactory;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: 服务端的入口程序,定义了任意数量actor的单词统计服务.并使用轮询模式来分发客服端接收到的统计任务.
  * @date 2017年10月20日
  * @since v1.0.0

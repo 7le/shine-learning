@@ -3,7 +3,7 @@ package akka.demo;
 import akka.actor.AbstractActor;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: 接受song，并可以循环播放
  * @date 2017年10月17日
  * @since v1.0.0

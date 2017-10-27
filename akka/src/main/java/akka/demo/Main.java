@@ -10,7 +10,7 @@ import sun.management.jmxremote.SingleEntryRegistry;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: main
  * @date 2017年10月17日
  * @since v1.0.0

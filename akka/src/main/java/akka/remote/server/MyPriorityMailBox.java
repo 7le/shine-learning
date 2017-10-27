@@ -7,7 +7,7 @@ import akka.dispatch.UnboundedPriorityMailbox;
 import com.typesafe.config.Config;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: 服务端通过MapReduceActor接受客户端发送的消息, 并将消息放入优先级MailBox
  * @date 2017年10月20日
  * @since v1.0.0

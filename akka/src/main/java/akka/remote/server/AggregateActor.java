@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: 如果是DISPLAY_LIST标识, 那么就打印结果.如果是Boolean就表示统计完成了
  * @date 2017年10月20日
  * @since v1.0.0

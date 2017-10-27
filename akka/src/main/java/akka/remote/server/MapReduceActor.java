@@ -4,7 +4,7 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: 消息中转和统管的Actor, 它统管了其他的几个Actor, 是消息的入口
  * @date 2017年10月20日
  * @since v1.0.0

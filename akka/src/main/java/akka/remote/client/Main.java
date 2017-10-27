@@ -4,7 +4,7 @@ import akka.actor.*;
 import com.typesafe.config.ConfigFactory;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: Client
  * @date 2017年10月20日
  * @since v1.0.0

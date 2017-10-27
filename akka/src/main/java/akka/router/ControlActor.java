@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author hq
+ * @author 7le
  * @Description: Akka通过Router机制,来有效的分配消息给actor
  * @date 2017年10月19日
  * @since v1.0.0
