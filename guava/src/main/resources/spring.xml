@@ -5,6 +5,19 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <context:component-scan base-package="com.sangame.cms.taglib" />
 
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
+
+    <bean id="taglibRestClient" class="com.sangame.sow.rest.client.RestClient">
+        <constructor-arg index="0" ref="restTemplate" />
+        <constructor-arg index="1" value="http://127.0.0.1:4196" />
+        <constructor-arg index="2" value="silk" />
+        <constructor-arg index="3" value="19960301" />
+    </bean>
+
+    <context:component-scan base-package="eventbus" />
+
+    <context:annotation-config/>
 
 </beans>
