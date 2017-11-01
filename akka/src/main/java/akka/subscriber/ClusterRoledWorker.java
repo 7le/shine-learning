@@ -35,7 +35,7 @@ public class ClusterRoledWorker extends AbstractActor {
     @Override
     public void preStart() throws Exception {
         //订阅集群事件
-        cluster.subscribe(getSelf(), ClusterEvent.initialStateAsEvents(), ClusterEvent.MemberUp.class,
+        cluster.subscribe(getSelf(), ClusterEvent.initialStateAsEvents(),
                 ClusterEvent.MemberEvent.class, ClusterEvent.UnreachableMember.class);
     }
 
