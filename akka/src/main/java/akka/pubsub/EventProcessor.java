@@ -1,4 +1,4 @@
-package akka.subscriber;
+package akka.pubsub;
 
 import akka.cluster.ClusterEvent;
 import akka.cluster.Member;

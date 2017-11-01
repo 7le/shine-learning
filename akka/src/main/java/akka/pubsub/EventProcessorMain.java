@@ -1,4 +1,4 @@
-package akka.subscriber;
+package akka.pubsub;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -16,7 +16,7 @@ public class EventProcessorMain {
 
         final Config config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port)
                 .withFallback(ConfigFactory.parseString("akka.cluster.roles= [processor]"))
-                .withFallback(ConfigFactory.load("subscriber"));
+                .withFallback(ConfigFactory.load("pubsub"));
 
         final ActorSystem system = ActorSystem.create("event-cluster-system", config);
 

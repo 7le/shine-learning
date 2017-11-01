@@ -1,4 +1,4 @@
-package akka.subscriber;
+package akka.pubsub;
 
 import akka.actor.Terminated;
 import akka.cluster.ClusterEvent;

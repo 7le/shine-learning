@@ -22,6 +22,7 @@ public class FrontendMain {
         final ActorSystem system = ActorSystem.create("ClusterSystem", config);
         system.log().info(
                 "Factorials will start when 2 backend members in the cluster.");
+        //加入集群成功后的回调事件
         Cluster.get(system).registerOnMemberUp(() ->
                 system.actorOf(Props.create(Frontend.class, upToN, true), "frontend"));
     }

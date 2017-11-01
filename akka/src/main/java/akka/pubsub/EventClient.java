@@ -1,4 +1,4 @@
-package akka.subscriber;
+package akka.pubsub;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -47,7 +47,7 @@ public class EventClient {
         ports.forEach(p ->{
             final Config config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + p).
                     withFallback(ConfigFactory.parseString("akka.cluster.roles = [collector]")).
-                    withFallback(ConfigFactory.load("subscriber"));
+                    withFallback(ConfigFactory.load("pubsub"));
             final ActorSystem system = ActorSystem.create("event-cluster-system", config);
             ActorRef collectingActor = system.actorOf(Props.create(EventCollector.class), "collectingActor");
             actors.put(p,collectingActor);

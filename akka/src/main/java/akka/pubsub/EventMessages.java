@@ -1,4 +1,4 @@
-package akka.subscriber;
+package akka.pubsub;
 
 import java.io.Serializable;
 

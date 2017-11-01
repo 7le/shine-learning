@@ -1,4 +1,4 @@
-package akka.subscriber;
+package akka.pubsub;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -18,7 +18,7 @@ public class EventInterceptorMain {
         //修改配置文件中的端口和角色
         final Config config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port).
                 withFallback(ConfigFactory.parseString("akka.cluster.roles = [interceptor]")).
-                withFallback(ConfigFactory.load("subscriber"));
+                withFallback(ConfigFactory.load("pubsub"));
         final ActorSystem system = ActorSystem.create("event-cluster-system", config);
         //实例化EventInterceptor Actor
         ActorRef interceptingActor = system.actorOf(Props.create(EventInterceptor.class), "interceptingActor");

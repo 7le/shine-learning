@@ -1,6 +1,5 @@
-package akka.subscriber;
+package akka.pubsub;
 
-import akka.actor.AbstractActor;
 import akka.actor.Terminated;
 import akka.cluster.ClusterEvent;
 import akka.cluster.Member;

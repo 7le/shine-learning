@@ -1,4 +1,4 @@
-package akka.subscriber;
+package akka.pubsub;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;

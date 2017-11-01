@@ -1,4 +1,4 @@
-package akka.subscriber;
+package akka.pubsub;
 
 /**
  * 入口
