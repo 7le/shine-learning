@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- *  使用WorkerPool 切记不能阻塞event loop
+ * 使用WorkerPool 切记不能阻塞event loop
  */
 public class Server extends AbstractVerticle {
 
@@ -61,6 +61,7 @@ public class Server extends AbstractVerticle {
 
     private void getAll(RoutingContext routingContext) {
         //调用worker pool 就不会阻塞event loop
+        //缺省true为串行 false为并行
         vertx.executeBlocking(future -> {
             try {
                 //模拟查询db
@@ -69,11 +70,13 @@ public class Server extends AbstractVerticle {
                 e.printStackTrace();
             }
             future.complete(1);
-        },asyncResult -> {
-            System.out.println("查询完毕 "+asyncResult);
-            routingContext.response()
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end(Json.encodePrettily(products.values()));
+        }, true, asyncResult -> {
+            if (asyncResult.succeeded()) {
+                System.out.println("查询完毕 " + asyncResult);
+                routingContext.response()
+                        .putHeader("content-type", "application/json; charset=utf-8")
+                        .end(Json.encodePrettily(products.values()));
+            }
         });
 
     }
