@@ -18,12 +18,13 @@ import java.util.List;
 
 /**
  * 使用WorkerPool 切记不能阻塞event loop
+ * Created by 7le on 2017/11/6
  */
 public class Server extends AbstractVerticle {
 
     private static Logger log = LoggerFactory.getLogger(Server.class);
 
-    private VideoService videoService= SpringUtils.getBean(VideoService.class);
+    private VideoService videoService = SpringUtils.getBean(VideoService.class);
 
     public static void main(String[] args) {
         deploy();
@@ -69,13 +70,13 @@ public class Server extends AbstractVerticle {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            future.complete(1);
+            future.complete(video[0]);
         }, true, asyncResult -> {
             if (asyncResult.succeeded()) {
                 System.out.println("查询完毕 " + asyncResult);
                 routingContext.response()
                         .putHeader("content-type", "application/json; charset=utf-8")
-                        .end(video[0]);
+                        .end(asyncResult.result().toString());
             }
         });
 
@@ -89,13 +90,13 @@ public class Server extends AbstractVerticle {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            future.complete(1);
+            future.complete(video[0]);
         }, true, asyncResult -> {
             if (asyncResult.succeeded()) {
                 System.out.println("查询完毕 " + asyncResult);
                 routingContext.response()
                         .putHeader("content-type", "application/json; charset=utf-8")
-                        .end(video[0]);
+                        .end(asyncResult.result().toString());
             }
         });
     }

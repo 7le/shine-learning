@@ -1,4 +1,4 @@
-package spring.annotation;
+package shine.spring.annotation;
 
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Created by 7le on 2017/7/21
+ * Created by 7le on 2017/11/6
  */
 @Service
 public class EventBusService extends ApplicationObjectSupport implements InitializingBean {

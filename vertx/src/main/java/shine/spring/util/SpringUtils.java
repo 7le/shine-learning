@@ -4,6 +4,9 @@ package shine.spring.util;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+/**
+ * Created by 7le on 2017/11/6
+ */
 public class SpringUtils {
 
     private static ApplicationContext ctx = null;

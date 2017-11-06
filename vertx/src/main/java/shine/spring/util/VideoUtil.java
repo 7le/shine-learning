@@ -3,6 +3,9 @@ package shine.spring.util;
 import java.io.*;
 import java.util.List;
 
+/**
+ * Created by 7le on 2017/11/6
+ */
 public class VideoUtil {
 
     public static String processImgLinux(String video_path,String ffmpeg_path) throws Exception {

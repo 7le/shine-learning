@@ -3,6 +3,10 @@ package shine.spring;
 import shine.spring.util.SpringUtils;
 import shine.spring.vertx.Server;
 
+/**
+ * 入口
+ * Created by 7le on 2017/11/6
+ */
 public class ServerMain {
 
     private static final String APPLICATION_FILE = "spring.xml";

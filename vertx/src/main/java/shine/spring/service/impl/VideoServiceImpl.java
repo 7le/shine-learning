@@ -15,6 +15,9 @@ import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Created by 7le on 2017/11/6
+ */
 @Service
 public class VideoServiceImpl extends BaseServiceImpl implements VideoService {
 
