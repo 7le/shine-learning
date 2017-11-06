@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                       	http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+    <!-- 阿里 druid 数据库连接池 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <!-- 数据库基本信息配置 -->
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+        <property name="driverClassName" value="${driverClassName}"/>
+        <property name="filters" value="${filters}"/>
+        <!-- 最大并发连接数 -->
+        <property name="maxActive" value="${maxActive}"/>
+        <!-- 初始化连接数量 -->
+        <property name="initialSize" value="${initialSize}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${maxWait}"/>
+        <!-- 最小空闲连接数 -->
+        <property name="minIdle" value="${minIdle}"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}"/>
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}"/>
+        <property name="validationQuery" value="${validationQuery}"/>
+        <property name="testWhileIdle" value="${testWhileIdle}"/>
+        <property name="testOnBorrow" value="${testOnBorrow}"/>
+        <property name="testOnReturn" value="${testOnReturn}"/>
+        <property name="maxOpenPreparedStatements" value="${maxOpenPreparedStatements}"/>
+        <!-- 打开 removeAbandoned 功能 -->
+        <property name="removeAbandoned" value="${removeAbandoned}"/>
+        <!-- 1800 秒，也就是 30 分钟 -->
+        <property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}"/>
+        <!-- 关闭 abanded 连接时输出错误日志 -->
+        <property name="logAbandoned" value="${logAbandoned}"/>
+    </bean>
+
+
+    <!-- 自动扫描 service层 -->
+    <context:component-scan base-package="shine.spring.service"/>
+
+
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 &ndash;&gt;    -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="shine.spring.dao" />
+        <property name="mapperLocations" value="classpath*:mapping/*.xml"/>
+        <property name="plugins">
+            <array>
+                <bean class="shine.spring.interceptor.PerformanceInterceptor">
+                    <property name="properties">
+                        <value>
+                            dialect=mysql reasonable=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 ,并生成Mappper接口的实现类的Bean-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="shine.spring.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <!-- 事务拦截器bean需要依赖注入一个事务管理器 -->
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="transactionAttributes">
+            <!-- 配置事务属性 -->
+            <props>
+                <!-- PROPAGATION_REQUIRED表示：在bean中所有以配置单词如get开头的方法，当抛出异常时自动回滚，并只读，其他异常自动回滚 -->
+                <!--  +/-Exception + 表示异常出现时事物提交 - 表示异常出现时事务回滚 -->
+                <!-- 事务处理，若无key匹配则默认为rISOLATION_SERIALIZABLE 最高事务等级 -->
+                <prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="select*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="load*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="search*">PROPAGATION_REQUIRED,readOnly</prop>
+
+                <prop key="append*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="insert*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="save*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="update*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="modify*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="change*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="remove*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="delete*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="repair*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="check*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="do*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+
+                <prop key="*Lv1">PROPAGATION_REQUIRED,ISOLATION_READ_UNCOMMITTED,-Exception</prop>
+                <prop key="*Lv2">PROPAGATION_REQUIRED,ISOLATION_READ_COMMITTED,-Exception</prop>
+                <prop key="*Lv4">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+                <prop key="*Lv8">PROPAGATION_REQUIRED,ISOLATION_SERIALIZABLE,-Exception</prop>
+
+                <!-- 测试专用 -->
+                <prop key="*LvTest">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+
+                <!-- 开启新事物 -->
+                <prop key="not*">PROPAGATION_REQUIRES_NEW,ISOLATION_REPEATABLE_READ,-Exception</prop>
+
+                <!-- 默认 -->
+                <prop key="*">PROPAGATION_REQUIRED,ISOLATION_REPEATABLE_READ,-Exception</prop>
+
+
+            </props>
+        </property>
+    </bean>
+
+<!--    <aop:config>
+        <aop:pointcut id="transactionPointcut" expression="execution(* com.shine.service.impl.*Impl.*(..))
+		and !execution(* com.shine.service.impl.ResourcesServiceImpl.*(..)) and !execution(* com.shine.service.impl.AccountServiceImpl.*(..)) "/>
+        <aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionInterceptor"/>
+    </aop:config>-->
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="serviceOperation" expression="execution(* *..*Service.*(..))" />
+        <aop:advisor pointcut-ref="serviceOperation" advice-ref="transactionInterceptor" order="0" />
+    </aop:config>
+
+
+</beans>  
