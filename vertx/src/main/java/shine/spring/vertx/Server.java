@@ -10,6 +10,7 @@ import io.vertx.ext.web.handler.BodyHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import shine.spring.annotation.EventBusService;
 import shine.spring.dao.model.Video;
 import shine.spring.service.VideoService;
 import shine.spring.util.SpringUtils;
@@ -25,6 +26,8 @@ public class Server extends AbstractVerticle {
     private static Logger log = LoggerFactory.getLogger(Server.class);
 
     private VideoService videoService = SpringUtils.getBean(VideoService.class);
+
+    private EventBusService eventBusService = SpringUtils.getBean(EventBusService.class);
 
     public static void main(String[] args) {
         deploy();
@@ -42,7 +45,7 @@ public class Server extends AbstractVerticle {
 
         // Rest of the method
         router.route("/video*").handler(BodyHandler.create());
-        //router.post("/video").handler(this::addOne);
+        router.post("/video").handler(this::addOne);
         router.get("/video").handler(this::getAll);
         router.get("/video/:id").handler(this::getOne);
 
@@ -57,6 +60,20 @@ public class Server extends AbstractVerticle {
                                 fut.fail(result.cause());
                             }
                         });
+    }
+
+    /**
+     * 利用eventbus
+     * @param routingContext
+     */
+    private void addOne(RoutingContext routingContext){
+        final Video video = Json.decodeValue(routingContext.getBodyAsString(),
+                Video.class);
+        eventBusService.postEvent(video);
+        routingContext.response()
+                .setStatusCode(201)
+                .putHeader("content-type", "application/json; charset=utf-8")
+                .end();
     }
 
     private void getOne(RoutingContext routingContext) {

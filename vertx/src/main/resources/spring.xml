@@ -14,8 +14,9 @@
 		</property>
 	</bean>
 
-	<context:component-scan base-package="shine.spring.service" />
 	<context:component-scan base-package="shine.spring.annotation" />
+	<context:component-scan base-package="shine.spring.handler" />
+
 	<context:annotation-config />
 
 	<import resource="spring-mybatis.xml" />
