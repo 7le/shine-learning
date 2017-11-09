@@ -21,22 +21,17 @@ import java.util.List;
  * 使用WorkerPool 切记不能阻塞event loop
  * Created by 7le on 2017/11/6
  */
-public class Server extends AbstractVerticle {
+public class VideoVerticle extends AbstractVerticle {
 
-    private static Logger log = LoggerFactory.getLogger(Server.class);
+    private static Logger log = LoggerFactory.getLogger(VideoVerticle.class);
 
     private VideoService videoService = SpringUtils.getBean(VideoService.class);
 
     private EventBusService eventBusService = SpringUtils.getBean(EventBusService.class);
 
     public static void main(String[] args) {
-        deploy();
+        Vertx.vertx().deployVerticle(VideoVerticle.class.getName());
     }
-
-    public static void deploy() {
-        Vertx.vertx().deployVerticle(Server.class.getName());
-    }
-
 
     @Override
     public void start(Future<Void> fut) throws Exception {

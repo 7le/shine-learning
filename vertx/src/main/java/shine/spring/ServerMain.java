@@ -1,7 +1,7 @@
 package shine.spring;
 
 import shine.spring.util.SpringUtils;
-import shine.spring.vertx.Server;
+import shine.spring.vertx.HttpVerticle;
 
 /**
  * 入口
@@ -22,6 +22,6 @@ public class ServerMain {
     }
 
     private static void initVertx() {
-        Server.deploy();
+        HttpVerticle.deploy();
     }
 }
