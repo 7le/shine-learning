@@ -17,6 +17,9 @@ public class ModelVerticle extends AbstractVerticle {
     public void start() {
         eventBus = vertx.eventBus();
         System.out.println(Thread.currentThread());
-        eventBus.consumer(ServerConstant.NEWS, message -> System.out.println("Model catch broadcast message: " + message.body()));
+        eventBus.consumer(ServerConstant.NEWS, message -> {
+            System.out.println("Model catch broadcast message: " + message.body());
+            message.reply("how interesting!");
+        });
     }
 }

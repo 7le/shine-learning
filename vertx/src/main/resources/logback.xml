@@ -137,17 +137,14 @@
         </layout>
     </appender>
 
-    <logger name="com.sangame.spdb.vertx.util.VerticleHelper" level="DEBUG" additivity="false">
-        <appender-ref ref="verticleLog" />
-    </logger>
-
     <!-- 需要记录日志的包 -->
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.quartz" level="WARN"/>
     <logger name="org.mybatis" level="ERROR" />
-    <logger name="shine.spring" level="INFO">
-    </logger>
-
+    <logger name="shine.spring" level="INFO" />
+    <logger name="org.apache.ignite" level="INFO"/>
+    <logger name="java.util.logging.ConsoleHandler" level="INFO"/>
+    <logger name="java.util.logging.FileHandler" level="INFO"/>
     <root>
         <level value="debug" />
         <appender-ref ref="stdout" />

@@ -27,7 +27,8 @@
                                     127.0.0.1 can be replaced with actual IP addresses or host names.
                                         Port range is optional.
                                 -->
-                                <value>127.0.0.1:48500..48520</value>
+                                <!--<value>192.168.20.52:48500..48520</value>-->
+                                <value>192.168.10.72:48500..48520</value>
                             </list>
                         </property>
                     </bean>
@@ -40,6 +41,7 @@
         -->
         <property name="communicationSpi">
             <bean class="org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi">
+
                 <property name="localPort" value="48100"/>
                 <!-- 配置允许向客户端节点输出消息的最大值，如果输出队列的大小超过配置的值，
                     该客户端节点会从集群断开以防止拖慢整个集群-->
@@ -48,13 +50,7 @@
         </property>
 
         <property name="gridLogger">
-            <bean class="org.apache.ignite.logger.java.JavaLogger">
-                <constructor-arg type="java.util.logging.Logger">
-                    <bean class="java.util.logging.Logger">
-                        <constructor-arg type="java.lang.String" value="global"/>
-                    </bean>
-                </constructor-arg>
-            </bean>
+            <bean class="org.apache.ignite.logger.slf4j.Slf4jLogger" />
         </property>
     </bean>
 
