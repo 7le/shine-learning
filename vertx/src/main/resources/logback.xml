@@ -114,7 +114,7 @@
 
 
 
-    <appender name="verticleLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<!--    <appender name="verticleLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>debug</level>
         </filter>
@@ -123,10 +123,10 @@
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>${log.base}/verticleLog.%d{yyyy-MM-dd}_%i.log.zip</FileNamePattern>
-            <!-- rollover daily -->
+            &lt;!&ndash; rollover daily &ndash;&gt;
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!-- or whenever the file size reaches 100MB -->
+                &lt;!&ndash; or whenever the file size reaches 100MB &ndash;&gt;
                 <maxFileSize>30MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
             <maxHistory>7</maxHistory>
@@ -136,6 +136,11 @@
             <pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
         </layout>
     </appender>
+
+    <logger name="shine.spring.vertx.util.VerticleHelper" level="DEBUG" additivity="false">
+        <appender-ref ref="verticleLog" />
+    </logger>&ndash;&gt;-->
+
 
     <!-- 需要记录日志的包 -->
     <logger name="org.springframework" level="WARN"/>

@@ -1,7 +1,7 @@
 package shine.spring.vertx;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Vertx;
+import shine.spring.vertx.util.VerticleLauncher;
 
 /**
  * HttpVerticle
@@ -10,7 +10,7 @@ import io.vertx.core.Vertx;
 public class HttpVerticle extends AbstractVerticle{
 
     static public void deploy(){
-        Vertx.vertx().deployVerticle(new HttpVerticle());
+        VerticleLauncher.deployVerticle();
     }
 
     @Override

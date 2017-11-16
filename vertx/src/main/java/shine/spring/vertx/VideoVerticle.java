@@ -89,7 +89,7 @@ public class VideoVerticle extends AbstractVerticle {
                 e.printStackTrace();
             }
             future.complete(video[0]);
-        }, true, asyncResult -> {
+        }, false, asyncResult -> {
             if (asyncResult.succeeded()) {
                 System.out.println("查询完毕 " + asyncResult);
                 routingContext.response()
@@ -109,7 +109,7 @@ public class VideoVerticle extends AbstractVerticle {
                 e.printStackTrace();
             }
             future.complete(video[0]);
-        }, true, asyncResult -> {
+        }, false, asyncResult -> {
             if (asyncResult.succeeded()) {
                 System.out.println("查询完毕 " + asyncResult);
                 routingContext.response()

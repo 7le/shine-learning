@@ -7,10 +7,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -33,9 +30,9 @@ public class EventBusService extends ApplicationObjectSupport implements Initial
         innerBus.register(eventListener);
     }
 
-    private static final ThreadPoolExecutor EXECUTOR =  new ThreadPoolExecutor(0, 50,
+    private static final ThreadPoolExecutor EXECUTOR =  new ThreadPoolExecutor(8, 50,
             60L, TimeUnit.SECONDS,
-            new SynchronousQueue<Runnable>(),
+            new LinkedBlockingQueue<Runnable>(),
             new ThreadFactoryImpl("pool-api-handler-thread-"));
 
     private static class ThreadFactoryImpl implements ThreadFactory {
