@@ -7,10 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 /**
- * @author hq
- * @Description: 广告统计 离线计算
- * @date 2017年11月16日
- * @since v2.0.0
+ * quartz 分布式定时任务
+ * Created by 7le on 2017/11/16
  */
 public class VertxJob extends QuartzJobBean {
 

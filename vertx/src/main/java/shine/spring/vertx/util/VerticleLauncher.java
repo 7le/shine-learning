@@ -12,10 +12,8 @@ import shine.spring.vertx.HttpVerticle;
 import java.io.InputStream;
 
 /**
- * @author hq
- * @Description: Launcher
- * @date 2017年11月13日
- * @since v2.0.0
+ * VerticleLauncher
+ * Created by 7le on 2017/11/16
  */
 public class VerticleLauncher {
 
