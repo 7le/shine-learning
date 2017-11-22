@@ -23,6 +23,13 @@ public class ServiceMain {
     private static final String CONFIG_FILE = "ignite.xml";
     private static final String DEFAULT_CONFIG_FILE = "default-ignite.xml";
 
+    private static void deploy(Vertx vertx) {
+        System.out.println("Deploy Verticles");
+        vertx.deployVerticle(new HttpServerVerticle());
+        //vertx.deployVerticle(new ModelVerticle());
+        //vertx.deployVerticle(new ModelVerticle());
+    }
+
     public static void main(String args[]) {
         VertxOptions options = new VertxOptions()
                 .setClustered(true)
@@ -60,12 +67,5 @@ public class ServiceMain {
             System.out.println("Configuration loading error:"+e);
             throw new RuntimeException(e);
         }
-    }
-
-    private static void deploy(Vertx vertx) {
-        System.out.println("Deploy Verticles");
-        vertx.deployVerticle(new HttpServerVerticle());
-        vertx.deployVerticle(new ModelVerticle());
-        vertx.deployVerticle(new ModelVerticle());
     }
 }
