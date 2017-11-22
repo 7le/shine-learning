@@ -3,7 +3,6 @@ package shine.map.local;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.core.shareddata.LocalMap;
 
 /**
  * 入口
@@ -17,13 +16,13 @@ public class Server extends AbstractVerticle {
 
     @Override
     public void start(Future<Void> startFuture) throws Exception {
-        RestAuth cache = new RestAuth();
-        cache.setUsername("test");
-        cache.setPassword("test");
-        vertx.sharedData().getLocalMap("LocalMap").put("test", cache);
+        //需要在同一实例下 localMap
+/*        Vertx.vertx().deployVerticle(Server1.class.getName());
+        Thread.sleep(1000);
+        Vertx.vertx().deployVerticle(Server2.class.getName());*/
 
-        LocalMap<String, RestAuth> apiMap = vertx.sharedData().getLocalMap("LocalMap");
-        RestAuth result = apiMap.get("test");
-        System.out.println(result.getUsername());
+        getVertx().deployVerticle(Server1.class.getName());
+        Thread.sleep(1000);
+        getVertx().deployVerticle(Server2.class.getName());
     }
 }
