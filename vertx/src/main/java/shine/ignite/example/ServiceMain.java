@@ -1,7 +1,10 @@
 package shine.ignite.example;
 
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import io.vertx.core.eventbus.EventBusOptions;
+import io.vertx.core.impl.VertxInternal;
 import io.vertx.spi.cluster.ignite.IgniteClusterManager;
 import org.apache.ignite.IgniteCheckedException;
 import org.apache.ignite.configuration.IgniteConfiguration;
@@ -24,10 +27,13 @@ public class ServiceMain {
     private static final String DEFAULT_CONFIG_FILE = "default-ignite.xml";
 
     private static void deploy(Vertx vertx) {
+        DeploymentOptions options1 = new DeploymentOptions().setWorker(true);
         System.out.println("Deploy Verticles");
         vertx.deployVerticle(new HttpServerVerticle());
-        //vertx.deployVerticle(new ModelVerticle());
-        //vertx.deployVerticle(new ModelVerticle());
+        vertx.deployVerticle(new ModelVerticle());
+        vertx.deployVerticle(new ModelVerticle());
+        vertx.deployVerticle(new ModelVerticle(),options1);
+
     }
 
     public static void main(String args[]) {
@@ -38,6 +44,9 @@ public class ServiceMain {
             if (vertxAsyncResult.succeeded()) {
                 vertx = vertxAsyncResult.result();
                 deploy(vertx);
+
+                vertx.setPeriodic(10000,s-> System.out.println("==============================="
+                        +((VertxInternal) vertx).getClusterManager().getNodes().size()));
             } else {
                 System.out.println("Can't create cluster");
                 System.exit(1);

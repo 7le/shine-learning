@@ -21,8 +21,7 @@ public class ModelVerticle extends AbstractVerticle {
     public void start() {
         eventBus = vertx.eventBus();
         sd = vertx.sharedData();
-
-        System.out.println(Thread.currentThread());
+        System.out.println(Thread.currentThread().getName());
         eventBus.consumer(ServerConstant.NEWS, message -> {
             System.out.println("Model catch broadcast message: " + message.body());
             message.reply("how interesting!");

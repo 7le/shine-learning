@@ -10,7 +10,7 @@ import shine.spring.vertx.util.VerticleLauncher;
 public class HttpVerticle extends AbstractVerticle{
 
     static public void deploy(){
-        VerticleLauncher.deployVerticle();
+        VerticleLauncher.deployVerticleWithDefaultConfig(HttpVerticle.class,true);
     }
 
     @Override
