@@ -1,10 +1,12 @@
 package shine.ignite.example.verticle;
 
+import com.google.common.base.Strings;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.shareddata.AsyncMap;
 import io.vertx.core.shareddata.SharedData;
 import shine.ignite.example.constant.ServerConstant;
+import shine.spring.util.IgniteCacheUtils;
 
 
 /**
@@ -25,7 +27,13 @@ public class ModelVerticle extends AbstractVerticle {
         eventBus.consumer(ServerConstant.NEWS, message -> {
             System.out.println("Model catch broadcast message: " + message.body());
             message.reply("how interesting!");
-
+            String cache = IgniteCacheUtils.getCache("cluster");
+            if(Strings.isNullOrEmpty(cache)){
+                System.out.println("Sorry ,I don't ");
+            } else {
+                System.out.println(cache);
+                System.out.println("Of course!");
+            }
             sd.<String, String>getClusterWideMap("mymap", res -> {
                 if (res.succeeded()) {
                     AsyncMap<String, String> map = res.result();

@@ -7,7 +7,9 @@ import io.vertx.core.shareddata.AsyncMap;
 import io.vertx.core.shareddata.SharedData;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.CorsHandler;
+import org.apache.ignite.Ignite;
 import shine.ignite.example.constant.ServerConstant;
+import shine.spring.util.IgniteCacheUtils;
 
 /**
  * 发送消息
@@ -16,7 +18,7 @@ import shine.ignite.example.constant.ServerConstant;
 public class HttpServerVerticle extends AbstractVerticle {
 
     private EventBus eventBus;
-
+    private static Ignite ignite;
     private SharedData sd;
 
     @Override
@@ -24,6 +26,7 @@ public class HttpServerVerticle extends AbstractVerticle {
         eventBus = vertx.eventBus();
         sd = vertx.sharedData();
 
+        //设置本地缓存
         sd.<String, String>getClusterWideMap("mymap", res -> {
             if (res.succeeded()) {
                 AsyncMap<String, String> map = res.result();
@@ -39,7 +42,6 @@ public class HttpServerVerticle extends AbstractVerticle {
             }
         });
 
-
         Router router = Router.router(vertx);
         //设置跨域
         router.route().handler(CorsHandler.create("*")
@@ -51,6 +53,17 @@ public class HttpServerVerticle extends AbstractVerticle {
 
         router.get("/").handler(routingContext -> {
             eventBus.publish(ServerConstant.NEWS, "publish");
+            eventBus.send(ServerConstant.NEWS, "send", ar -> {
+                if (ar.succeeded())
+                    System.out.println("Received reply: " + ar.result().body());
+            });
+            routingContext.response().putHeader("content-type", "text/html")
+                    .end("Message send");
+        });
+        router.get("/ignite").handler(routingContext -> {
+            //设置集群缓存
+            IgniteCacheUtils.putCache("cluster", "Do you receive me ?");
+            System.out.println("Add ignite cache !");
             eventBus.send(ServerConstant.NEWS, "send", ar -> {
                 if (ar.succeeded())
                     System.out.println("Received reply: " + ar.result().body());
