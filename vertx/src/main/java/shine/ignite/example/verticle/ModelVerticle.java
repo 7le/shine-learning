@@ -5,8 +5,14 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.shareddata.AsyncMap;
 import io.vertx.core.shareddata.SharedData;
+import org.apache.ignite.IgniteCache;
+import org.apache.ignite.cache.query.QueryCursor;
+import org.apache.ignite.cache.query.SqlFieldsQuery;
 import shine.ignite.example.constant.ServerConstant;
+import shine.spring.dao.model.Video;
 import shine.spring.util.IgniteCacheUtils;
+
+import java.util.List;
 
 
 /**
@@ -28,6 +34,12 @@ public class ModelVerticle extends AbstractVerticle {
             System.out.println("Model catch broadcast message: " + message.body());
             message.reply("how interesting!");
             String cache = IgniteCacheUtils.getCache("cluster");
+
+            IgniteCache cache1 = IgniteCacheUtils.getVideo();
+            Video video = (Video) cache1.get(22);
+            System.out.println("vid :22 name: " + video.getName());
+            QueryCursor<List<?>> cursor = cache1.query(new SqlFieldsQuery("select * from Video"));
+            System.out.println(cursor.getAll());
             if(Strings.isNullOrEmpty(cache)){
                 System.out.println("Sorry ,I don't ");
             } else {

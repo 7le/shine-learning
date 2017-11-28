@@ -6,10 +6,17 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.shareddata.AsyncMap;
 import io.vertx.core.shareddata.SharedData;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
-import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteCache;
+import org.apache.ignite.cache.query.QueryCursor;
+import org.apache.ignite.cache.query.SqlFieldsQuery;
+import org.apache.ignite.cache.query.SqlQuery;
 import shine.ignite.example.constant.ServerConstant;
+import shine.spring.dao.model.Video;
 import shine.spring.util.IgniteCacheUtils;
+
+import java.util.List;
 
 /**
  * 发送消息
@@ -18,7 +25,6 @@ import shine.spring.util.IgniteCacheUtils;
 public class HttpServerVerticle extends AbstractVerticle {
 
     private EventBus eventBus;
-    private static Ignite ignite;
     private SharedData sd;
 
     @Override
@@ -51,27 +57,50 @@ public class HttpServerVerticle extends AbstractVerticle {
                 .allowedHeader("X-PINGARUNER")
                 .allowedHeader("Content-Type"));
 
-        router.get("/").handler(routingContext -> {
-            eventBus.publish(ServerConstant.NEWS, "publish");
-            eventBus.send(ServerConstant.NEWS, "send", ar -> {
-                if (ar.succeeded())
-                    System.out.println("Received reply: " + ar.result().body());
-            });
-            routingContext.response().putHeader("content-type", "text/html")
-                    .end("Message send");
-        });
-        router.get("/ignite").handler(routingContext -> {
-            //设置集群缓存
-            IgniteCacheUtils.putCache("cluster", "Do you receive me ?");
-            System.out.println("Add ignite cache !");
-            eventBus.send(ServerConstant.NEWS, "send", ar -> {
-                if (ar.succeeded())
-                    System.out.println("Received reply: " + ar.result().body());
-            });
-            routingContext.response().putHeader("content-type", "text/html")
-                    .end("Message send");
-        });
+        router.get("/").handler(this::send);
+
+        router.get("/ignite").handler(this::cache);
+
+        router.get("/ignite/sql").handler(this::sql);
+
+
         vertx.createHttpServer().requestHandler(router::accept).listen(8010);
     }
 
+    private void send(RoutingContext routingContext){
+        eventBus.publish(ServerConstant.NEWS, "publish");
+        eventBus.send(ServerConstant.NEWS, "send", ar -> {
+            if (ar.succeeded())
+                System.out.println("Received reply: " + ar.result().body());
+        });
+        routingContext.response().putHeader("content-type", "text/html")
+                .end("Message send");
+    }
+
+    private void cache(RoutingContext routingContext){
+        //设置集群缓存
+        IgniteCacheUtils.putCache("cluster", "Do you receive me ?");
+        System.out.println("Add ignite cache !");
+        eventBus.send(ServerConstant.NEWS, "send", ar -> {
+            if (ar.succeeded())
+                System.out.println("Received reply: " + ar.result().body());
+        });
+        routingContext.response().putHeader("content-type", "text/html")
+                .end("Message send");
+    }
+
+    private void sql(RoutingContext routingContext){
+        vertx.executeBlocking(s->{
+            IgniteCache cache = IgniteCacheUtils.getVideo();
+            cache.loadCache(null);
+            Video video = (Video) cache.get(22);
+            System.out.println("vid :22 name: " + video.getName());
+            QueryCursor<List<?>> cursor = cache.query(new SqlFieldsQuery("select * from Video"));
+            System.out.println(cursor.getAll());
+            SqlQuery sql = new SqlQuery(Video.class, "vid > ?");
+            System.out.println(cache.query(sql.setArgs(30)).getAll());
+            s.complete();
+        },result ->routingContext.response().putHeader("content-type", "text/html")
+                .end("OK"));
+    }
 }

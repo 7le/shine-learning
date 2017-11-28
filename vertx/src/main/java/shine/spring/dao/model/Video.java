@@ -1,24 +1,45 @@
 package shine.spring.dao.model;
 
+import org.apache.ignite.cache.query.annotations.QuerySqlField;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Video {
+public class Video implements Serializable{
 
+    private static final long serialVersionUID = 3413847585043866059L;
+
+    @QuerySqlField(index = true)
     private Integer vid;
-
+    @QuerySqlField
     private String name;
-
+    @QuerySqlField
     private String videoUrl;
-
+    @QuerySqlField
     private String photoUrl;
-
+    @QuerySqlField
     private Integer deleteFlag;
-
+    @QuerySqlField
     private Date createdAt;
-
+    @QuerySqlField
     private String creator;
-
+    @QuerySqlField
     private String remark;
+
+    public Video() {
+
+    }
+
+    public Video(Integer vid, String name, String videoUrl, String photoUrl, Integer deleteFlag, Date createdAt, String creator, String remark) {
+        this.vid = vid;
+        this.name = name;
+        this.videoUrl = videoUrl;
+        this.photoUrl = photoUrl;
+        this.deleteFlag = deleteFlag;
+        this.createdAt = createdAt;
+        this.creator = creator;
+        this.remark = remark;
+    }
 
     public Integer getVid() {
         return vid;

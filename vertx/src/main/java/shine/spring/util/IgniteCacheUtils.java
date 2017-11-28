@@ -4,8 +4,11 @@ import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.cache.eviction.fifo.FifoEvictionPolicy;
 import org.apache.ignite.configuration.CacheConfiguration;
+import shine.ignite.example.sql.Store;
+import shine.spring.dao.model.Video;
 
 import javax.cache.configuration.Factory;
+import javax.cache.configuration.FactoryBuilder;
 import javax.cache.expiry.*;
 import java.util.concurrent.TimeUnit;
 
@@ -17,9 +20,25 @@ public class IgniteCacheUtils {
 
     private static IgniteCache<String, String> cache;
 
+    private static IgniteCache<Integer, Video> videoCache;
+
     private static <K, V> IgniteCache<K, V> getCache(Ignite ignite) {
         CacheConfiguration<K, V> ccfg = newConfig("cache", 2 * 60 * 60L, CachePolicy.CREATED_EXPIRY_POLICY);
         return ignite.getOrCreateCache(ccfg);
+    }
+
+    private static IgniteCache getVideoCache(Ignite ignite) {
+        CacheConfiguration<Integer, Video> cacheCfg = new CacheConfiguration<>("videoCache");
+
+        // Set atomicity as transaction, since we are showing transactions in example.
+        //cacheCfg.setAtomicityMode(TRANSACTIONAL);
+        // 设置 JDBC store.
+        cacheCfg.setCacheStoreFactory(FactoryBuilder.factoryOf(Store.class));
+        cacheCfg.setIndexedTypes(Integer.class, Video.class);
+        cacheCfg.setReadThrough(true);
+        cacheCfg.setWriteThrough(true);
+
+        return ignite.getOrCreateCache(cacheCfg);
     }
 
     private static <K, V> CacheConfiguration<K, V> newConfig(String name, long durationAmount, CachePolicy policy) {
@@ -59,6 +78,7 @@ public class IgniteCacheUtils {
      */
     public static void initIgniteCache(Ignite ignite) {
         cache = getCache(ignite);
+        videoCache = getVideoCache(ignite);
     }
 
     public static void putCache(String key, String value) {
@@ -90,5 +110,9 @@ public class IgniteCacheUtils {
             this.desc = desc;
         }
 
+    }
+
+    public static IgniteCache getVideo(){
+        return videoCache;
     }
 }

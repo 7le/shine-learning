@@ -13,8 +13,11 @@ import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.internal.IgnitionEx;
 import org.apache.ignite.internal.util.typedef.F;
 import shine.ignite.example.verticle.HttpServerVerticle;
+import shine.ignite.example.verticle.ModelVerticle;
 import shine.spring.util.IgniteCacheUtils;
+import shine.spring.util.SpringUtils;
 
+import javax.swing.*;
 import java.io.InputStream;
 import java.util.UUID;
 
@@ -40,6 +43,7 @@ public class ServiceMain {
     }
 
     public static void main(String args[]) {
+        SpringUtils.init("spring.xml");
         VertxOptions options = new VertxOptions()
                 .setClustered(true)
                 .setClusterManager(new IgniteClusterManager(loadConfiguration()));
