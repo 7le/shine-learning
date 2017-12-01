@@ -25,7 +25,7 @@ import java.util.UUID;
  * 入口
  * Created by 7le on 2017/11/10
  */
-public class ServiceMain {
+public class ServerMain {
 
     private static Vertx vertx;
     private static Ignite ignite;
@@ -70,7 +70,7 @@ public class ServiceMain {
             is = ctxClsLoader.getResourceAsStream(CONFIG_FILE);
         }
         if (is == null) {
-            Class<ServiceMain> cls = ServiceMain.class;
+            Class<ServerMain> cls = ServerMain.class;
             is = cls.getClassLoader().getResourceAsStream(CONFIG_FILE);
             if (is == null) {
                 is = cls.getClassLoader().getResourceAsStream(DEFAULT_CONFIG_FILE);
