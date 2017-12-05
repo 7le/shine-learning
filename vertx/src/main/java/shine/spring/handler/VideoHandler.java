@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.concurrent.locks.StampedLock;
 
 /**
- * Created by 7le on 2017/11/6
+ * @description: eventbus handler
+ * @author : 7le
+ * @date: 2017/11/6
  */
 @EventSubscriber
 public class VideoHandler {

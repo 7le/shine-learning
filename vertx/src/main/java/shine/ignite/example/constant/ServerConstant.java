@@ -1,8 +1,9 @@
 package shine.ignite.example.constant;
 
 /**
- * 常量
- * Created by 7le on 2017/11/10
+ * @description: 常量
+ * @author : 7le
+ * @date: 2017/11/10
  */
 public interface ServerConstant {
 

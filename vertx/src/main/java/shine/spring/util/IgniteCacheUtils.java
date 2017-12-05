@@ -13,8 +13,9 @@ import javax.cache.expiry.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * IgniteCacheUtils
- * Created by 7le on 2017/11/27
+ * @description: IgniteCacheUtils
+ * @author : 7le
+ * @date: 2017/11/27
  */
 public class IgniteCacheUtils {
 

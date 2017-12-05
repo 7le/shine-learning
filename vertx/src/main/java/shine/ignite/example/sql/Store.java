@@ -18,8 +18,9 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Store demo for video
- * Created by 7le on 2017/11/28
+ * @description: Store demo for video
+ * @author : 7le
+ * @date: 2017/11/28
  */
 public class Store extends CacheStoreAdapter<Integer, Video> {
 

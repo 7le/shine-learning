@@ -4,7 +4,9 @@ import java.io.*;
 import java.util.List;
 
 /**
- * Created by 7le on 2017/11/6
+ * @description: VideoUtil
+ * @author : 7le
+ * @date: 2017/11/6
  */
 public class VideoUtil {
 

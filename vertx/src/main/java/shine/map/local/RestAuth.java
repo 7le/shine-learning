@@ -8,8 +8,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * 自定义的bean ——> localMap 需要实现 Shareable
- * Created by 7le on 2017/11/22
+ * @description: 自定义的bean ——> localMap 需要实现 Shareable
+ * @author : 7le
+ * @date: 2017/11/22
  */
 public class RestAuth implements Shareable {
 

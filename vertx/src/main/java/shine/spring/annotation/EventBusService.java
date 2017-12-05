@@ -11,7 +11,9 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Created by 7le on 2017/11/6
+ * @description: EventBusService
+ * @author : 7le
+ * @date: 2017/11/6
  */
 @Service
 public class EventBusService extends ApplicationObjectSupport implements InitializingBean {

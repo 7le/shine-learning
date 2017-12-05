@@ -148,6 +148,7 @@
     <logger name="org.mybatis" level="ERROR" />
     <logger name="shine.spring" level="INFO" />
     <logger name="org.apache.ignite" level="INFO"/>
+    <logger name="org.apache.zookeeper" level="INFO"/>
     <logger name="java.util.logging.ConsoleHandler" level="INFO"/>
     <logger name="java.util.logging.FileHandler" level="INFO"/>
     <root>

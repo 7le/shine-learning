@@ -11,8 +11,9 @@ import shine.spring.vertx.util.VerticleLauncher;
 import java.util.UUID;
 
 /**
- * HttpVerticle
- * Created by 7le on 2017/11/6
+ * @description: HttpVerticle
+ * @author : 7le
+ * @date: 2017/11/6
  */
 public class HttpVerticle extends AbstractVerticle{
 

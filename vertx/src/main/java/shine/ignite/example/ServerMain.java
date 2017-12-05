@@ -22,8 +22,9 @@ import java.io.InputStream;
 import java.util.UUID;
 
 /**
- * 入口
- * Created by 7le on 2017/11/10
+ * @description: 入口
+ * @author : 7le
+ * @date: 2017/11/10
  */
 public class ServerMain {
 

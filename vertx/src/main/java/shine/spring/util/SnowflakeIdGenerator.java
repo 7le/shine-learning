@@ -1,9 +1,9 @@
 package shine.spring.util;
 
-
 /**
- * 自定义UUID -> Snowflake算法
- * Created by 7le on 2017/11/6
+ * @description: 自定义UUID -> Snowflake算法
+ * @author : 7le
+ * @date: 2017/11/16
  */
 public class SnowflakeIdGenerator {
 

@@ -6,8 +6,9 @@ import java.util.concurrent.locks.StampedLock;
 import java.util.stream.IntStream;
 
 /**
- * StampedLock Test
- * Created by 7le on 2017/12/1
+ * @description: StampedLock Test
+ * @author : 7le
+ * @date: 2017/12/1
  */
 public class StampedLockTest {
 

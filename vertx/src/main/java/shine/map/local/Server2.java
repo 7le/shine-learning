@@ -5,8 +5,9 @@ import io.vertx.core.Future;
 import io.vertx.core.shareddata.LocalMap;
 
 /**
- * Server2
- * Created by 7le on 2017/11/22
+ * @description: server2
+ * @author : 7le
+ * @date: 2017/11/22
  */
 public class Server2 extends AbstractVerticle {
 

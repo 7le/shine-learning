@@ -17,8 +17,9 @@ import shine.spring.service.VideoService;
 import shine.spring.util.SpringUtils;
 
 /**
- * 使用WorkerPool 切记不能阻塞event loop
- * Created by 7le on 2017/11/6
+ * @description: 使用WorkerPool 切记不能阻塞event loop
+ * @author : 7le
+ * @date: 2017/11/6
  */
 public class VideoVerticle extends AbstractVerticle {
 

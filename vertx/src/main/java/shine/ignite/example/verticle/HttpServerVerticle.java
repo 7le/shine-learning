@@ -19,8 +19,9 @@ import shine.spring.util.IgniteCacheUtils;
 import java.util.List;
 
 /**
- * 发送消息
- * Created by 7le on 2017/11/10
+ * @description: 发送消息
+ * @author : 7le
+ * @date: 2017/11/10
  */
 public class HttpServerVerticle extends AbstractVerticle {
 

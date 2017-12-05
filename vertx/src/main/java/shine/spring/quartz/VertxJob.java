@@ -7,8 +7,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 /**
- * quartz 分布式定时任务
- * Created by 7le on 2017/11/16
+ * @description: quartz 分布式定时任务
+ * @author : 7le
+ * @date: 2017/11/16
  */
 public class VertxJob extends QuartzJobBean {
 

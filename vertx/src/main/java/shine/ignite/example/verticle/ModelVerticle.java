@@ -14,10 +14,10 @@ import shine.spring.util.IgniteCacheUtils;
 
 import java.util.List;
 
-
 /**
- * 接受消息
- * Created by 7le on 2017/11/10
+ * @description: 接受消息
+ * @author : 7le
+ * @date: 2017/11/10
  */
 public class ModelVerticle extends AbstractVerticle {
 

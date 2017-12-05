@@ -5,7 +5,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * Created by 7le on 2017/11/6
+ * @description: SpringUtils
+ * @author : 7le
+ * @date: 2017/11/6
  */
 public class SpringUtils {
 
