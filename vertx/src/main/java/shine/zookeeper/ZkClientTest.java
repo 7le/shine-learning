@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class ZkClientTest {
 
     public static void main(String[] args) {
-        ZkClient zkClient = new ZkClient("192.168.20.52:2181,192.168.20.53:2181");
+        ZkClient zkClient = new ZkClient("192.168.20.52:2181,192.168.20.53:2181,114.215.122.158:2181");
         String node = "/myapp";
 
         // 订阅监听事件

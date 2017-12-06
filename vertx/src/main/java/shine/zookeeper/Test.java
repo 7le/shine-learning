@@ -3,6 +3,7 @@ package shine.zookeeper;
 import org.apache.zookeeper.*;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @description: test
@@ -46,8 +47,20 @@ public class Test {
      */
     private void createZKInstance() throws IOException {
         // 连接到ZK服务，多个可以用逗号分割写
-        zk = new ZooKeeper("192.168.20.52:2181,192.168.20.53:2181", Test.SESSION_TIMEOUT, this.wh);
-
+        zk = new ZooKeeper("192.168.20.52:2181,192.168.20.53:2181,114.215.122.158:2181", Test.SESSION_TIMEOUT, this.wh);
+        if(!zk.getState().equals(ZooKeeper.States.CONNECTED)){
+            while(true){
+                if(zk.getState().equals(ZooKeeper.States.CONNECTED)){
+                    break;
+                }
+                try {
+                    //如果未连接成功，程序自动使用其他连接去请求连接
+                    TimeUnit.SECONDS.sleep(5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void zkOperations() throws IOException, InterruptedException, KeeperException {

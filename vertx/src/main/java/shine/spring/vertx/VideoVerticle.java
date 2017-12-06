@@ -1,5 +1,6 @@
 package shine.spring.vertx;
 
+import com.alibaba.fastjson.JSON;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -12,6 +13,7 @@ import io.vertx.ext.web.handler.CorsHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import shine.spring.annotation.EventBusService;
+import shine.spring.bean.MonitorInfo;
 import shine.spring.dao.model.Video;
 import shine.spring.service.VideoService;
 import shine.spring.util.SpringUtils;
@@ -46,6 +48,8 @@ public class VideoVerticle extends AbstractVerticle {
                 .allowedHeader("X-PINGARUNER")
                 .allowedHeader("Content-Type"));
         // Rest of the method
+        router.get("/server/status").handler(this::getStatus);
+        router.get("/server/monitor").handler(this::getMonitor);
         router.route("/video*").handler(BodyHandler.create());
         router.post("/video").handler(this::addOne);
         router.get("/video").handler(this::getAll);
@@ -118,6 +122,29 @@ public class VideoVerticle extends AbstractVerticle {
                         .end(asyncResult.result().toString());
             }
         });
+    }
+
+    private void getStatus(RoutingContext routingContext) {
+        routingContext.response()
+                .putHeader("content-type", "text/plain")
+                .end("Hello!");
+    }
+
+    private void getMonitor(RoutingContext routingContext) {
+        MonitorInfo info = new MonitorInfo();
+        // 剩余内存
+        info.setFreeMemory(Runtime.getRuntime().freeMemory());
+        // 可使用内存
+        info.setTotalMemory(Runtime.getRuntime().totalMemory());
+        // 最大可使用内存
+        info.setMaxMemory(Runtime.getRuntime().maxMemory());
+        // 线程总数
+        ThreadGroup tg;
+        for (tg = Thread.currentThread().getThreadGroup(); tg.getParent() != null; tg = tg.getParent());
+        info.setTotalThread(tg.activeCount());
+        routingContext.response()
+                .putHeader("content-type", "application/json; charset=utf-8")
+                .end(JSON.toJSONString(info));
     }
 
 }
