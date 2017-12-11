@@ -2,6 +2,7 @@ package shine.spring.handler;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import shine.spring.annotation.EventSubscriber;
 import shine.spring.dao.model.Video;
@@ -9,11 +10,12 @@ import shine.spring.service.VideoService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.StampedLock;
 
 /**
- * @description: eventbus handler
  * @author : 7le
+ * @description: eventbus handler
  * @date: 2017/11/6
  */
 @EventSubscriber
@@ -38,6 +40,69 @@ public class VideoHandler {
      */
     private static final long TIME = 1000;
 
+    public VideoHandler() {
+        /*ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("video-handler-%d").build();
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(), namedThreadFactory);
+        executor.execute(() -> {
+            while (true) {
+                if (checkTime()) {
+                    List<Object> toBeFlush = null;
+                    long write = lock.writeLock();
+                    try {
+                        toBeFlush = new ArrayList<>(buf);
+                        buf.clear();
+                    } finally {
+                        lock.unlockWrite(write);
+                    }
+                    if (toBeFlush.size() > 0) {
+                        System.out.println(Thread.currentThread() + " flush:" + toBeFlush.size());
+                        System.out.println("调用service后续操作：" + videoService);
+                    }
+                    System.out.println("======================================video: " + Thread.currentThread().getName());
+                }
+            }
+        });*/
+        //newScheduledThreadPool 底层用Condition await() 和signal() 来实现了线程间的等待
+        ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(2);
+        //周期性地执行任务，延迟0s后，每1s一次地周期性执行任务
+        scheduledThreadPool.scheduleAtFixedRate(() -> {
+                    List<Object> toBeFlush = null;
+                    long write = lock.writeLock();
+                    try {
+                        toBeFlush = new ArrayList<>(buf);
+                        buf.clear();
+                    } finally {
+                        lock.unlockWrite(write);
+                    }
+                    if (toBeFlush.size() > 0) {
+                        System.out.println(Thread.currentThread() + " flush:" + toBeFlush.size());
+                        System.out.println("调用service后续操作：" + videoService);
+                    }
+                    System.out.println("1======================================video: " + Thread.currentThread().getName());
+
+                },
+                0, 1, TimeUnit.SECONDS);
+
+        scheduledThreadPool.scheduleAtFixedRate(() -> {
+                    List<Object> toBeFlush = null;
+                    long write = lock.writeLock();
+                    try {
+                        toBeFlush = new ArrayList<>(buf);
+                        buf.clear();
+                    } finally {
+                        lock.unlockWrite(write);
+                    }
+                    if (toBeFlush.size() > 0) {
+                        System.out.println(Thread.currentThread() + " flush:" + toBeFlush.size());
+                        System.out.println("调用service后续操作：" + videoService);
+                    }
+                    System.out.println("2======================================video: " + Thread.currentThread().getName());
+
+                },
+                0, 1, TimeUnit.SECONDS);
+    }
+
     @AllowConcurrentEvents
     @Subscribe
     public void onVideo(Video video) {
@@ -47,17 +112,17 @@ public class VideoHandler {
         try {
             buf.add(video);
             System.out.println(Thread.currentThread().getName() + " buf : " + buf.size());
-            if (buf.size() > MAX || checkTime()) {
+            if (buf.size() > MAX) {
                 toBeFlush = new ArrayList<>(buf);
                 buf.clear();
             }
-            if (toBeFlush != null && toBeFlush.size() > 0) {
-                System.out.println(Thread.currentThread() + " flush:" + toBeFlush.size());
-                // System.out.println(max);
-                System.out.println("调用service后续操作："+videoService);
-            }
         } finally {
             lock.unlockWrite(write);
+        }
+        if (toBeFlush != null && toBeFlush.size() > 0) {
+            System.out.println(Thread.currentThread() + " flush:" + toBeFlush.size());
+            // System.out.println(max);
+            System.out.println("调用service后续操作：" + videoService);
         }
     }
 
