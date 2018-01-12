@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
 
 
 /**
@@ -111,6 +112,6 @@ public class PerformanceInterceptor implements Interceptor {
         } else {
             result = "null";
         }
-        return sql.replaceFirst("\\?", result);
+        return sql.replaceFirst("\\?", Matcher.quoteReplacement(result));
     }
 }
