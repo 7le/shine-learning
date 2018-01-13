@@ -11,6 +11,8 @@ import shine.spring.service.VideoService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.StampedLock;
 
 /**
@@ -28,7 +30,7 @@ public class VideoHandler {
 
     private long lastTime = 0L;
 
-    private final StampedLock lock = new StampedLock();
+    private static Lock reentrantLock = new ReentrantLock();
 
     /**
      * 达到最大数量就写库
@@ -68,12 +70,12 @@ public class VideoHandler {
         //周期性地执行任务，延迟0s后，每1s一次地周期性执行任务
         scheduledThreadPool.scheduleAtFixedRate(() -> {
                     List<Object> toBeFlush = null;
-                    long write = lock.writeLock();
+                    reentrantLock.lock();
                     try {
                         toBeFlush = new ArrayList<>(buf);
                         buf.clear();
                     } finally {
-                        lock.unlockWrite(write);
+                        reentrantLock.unlock();
                     }
                     if (toBeFlush.size() > 0) {
                         System.out.println(Thread.currentThread() + " flush:" + toBeFlush.size());
@@ -86,12 +88,12 @@ public class VideoHandler {
 
         scheduledThreadPool.scheduleAtFixedRate(() -> {
                     List<Object> toBeFlush = null;
-                    long write = lock.writeLock();
+                    reentrantLock.lock();
                     try {
                         toBeFlush = new ArrayList<>(buf);
                         buf.clear();
                     } finally {
-                        lock.unlockWrite(write);
+                        reentrantLock.unlock();
                     }
                     if (toBeFlush.size() > 0) {
                         System.out.println(Thread.currentThread() + " flush:" + toBeFlush.size());
@@ -107,8 +109,7 @@ public class VideoHandler {
     @Subscribe
     public void onVideo(Video video) {
         List<Object> toBeFlush = null;
-
-        long write = lock.writeLock();
+        reentrantLock.lock();
         try {
             buf.add(video);
             System.out.println(Thread.currentThread().getName() + " buf : " + buf.size());
@@ -117,7 +118,7 @@ public class VideoHandler {
                 buf.clear();
             }
         } finally {
-            lock.unlockWrite(write);
+            reentrantLock.unlock();
         }
         if (toBeFlush != null && toBeFlush.size() > 0) {
             System.out.println(Thread.currentThread() + " flush:" + toBeFlush.size());

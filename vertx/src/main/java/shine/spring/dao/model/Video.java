@@ -104,4 +104,18 @@ public class Video implements Serializable{
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "vid=" + vid +
+                ", name='" + name + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", deleteFlag=" + deleteFlag +
+                ", createdAt=" + createdAt +
+                ", creator='" + creator + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
+    }
 }
