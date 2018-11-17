@@ -4,7 +4,7 @@
 
 ``actor 生命周期``
 
-![actor-生命周期](http://oqipguzbl.bkt.clouddn.com/actor.png)
+![actor-生命周期](https://github.com/7le/7le.github.io/raw/master/image/actor.png)
 
 > actorOf -> preStart -> start -> receive -> stop -> postStop
 
